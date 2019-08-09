@@ -1,0 +1,12 @@
+dump/*.sql
+config/*.js
+node_modules/
+data/invoices/*.pdf
+
+*.swp
+*.out 
+*.log 
+*.yaml
+.vscode
+.DS_Store
+package-lock.json

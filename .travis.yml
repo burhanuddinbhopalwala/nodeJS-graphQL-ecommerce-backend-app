@@ -1,0 +1,36 @@
+#* https://devhints.io/travis
+sudo: required #* Default: false
+
+language: node_js
+node_js:
+    - "10.9.0"
+dist: trusty #* Special version of UNIX, well tailored for small virtual machines/ small tasks (running test suite)
+
+services:
+    - mysql
+    - redis-server
+
+env: #* One build will be triggered for each line in the env array
+    - NODE_ENV="ci" PORT=3500 #* Not all ENV variables are mentioned here
+
+cache:
+    directories:
+        - node_modules
+
+before_install:
+    - sudo apt-get update --yes
+install:
+    - npm install
+
+script:
+    - nohup npm run ci & #* This runs eslint etc.
+    - nohup npm run test & #* Dummy tests
+after_script:
+    - redis-cli script flush
+
+branches: #* Don't build for pushes to branches other than master
+    except: #* Explicit mention
+        - development
+        - staging
+    only: #* This doesn’t affect pull-request builds, which are separate from branch builds in Travis
+        - /^master/
