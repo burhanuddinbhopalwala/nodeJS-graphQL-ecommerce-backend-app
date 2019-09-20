@@ -170,8 +170,6 @@ class UsersController {
 				error.data = validationErrors.array();
 				throw error;
 			}
-			const token = await crypto.randomBytes(32);
-			const hexToken = token.toString("hex");
 			const user = await User.findOne({
 				where: { email: req.body.email }
 			});
@@ -180,6 +178,8 @@ class UsersController {
 				error.httpStatusCode = 404;
 				throw error;
 			}
+			const token = await crypto.randomBytes(32);
+			const hexToken = token.toString("hex");
 			const updatedUser = await user.update({
 				resetToken: hexToken,
 				resetTokenExpiration: Date.now() + 3600 * 1000
@@ -194,11 +194,7 @@ class UsersController {
 				to: updatedUser.email,
 				subject: "Passoword reset link!",
 				html: `<p>You requested a password reset.</p></br>
-        		<p>Please click this link: <a href="${
-					process.env.URL
-				}/users/resetPasswordVerify/${
-					updatedUser.resetToken
-				}">link</a> to reset the password. This link will expire in 1 hour.</p>`
+        		<p>Please click this link: <a href="${process.env.URL}/users/resetPasswordVerify/${updatedUser.resetToken}">link</a> to reset the password. This link will expire in 1 hour.</p>`
 			});
 		} catch (error) {
 			if (!error.httpStatusCode) error.httpStatusCode = 500;
