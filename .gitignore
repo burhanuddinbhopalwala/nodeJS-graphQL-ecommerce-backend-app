@@ -1,6 +1,7 @@
 dump/*.sql
 config/*.js
 node_modules/
+nodePM2Deployers/*
 data/invoices/*.pdf
 
 *.swp
