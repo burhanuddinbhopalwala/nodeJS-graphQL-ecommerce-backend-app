@@ -1,8 +1,9 @@
 dump/*.sql
 config/*.js
 node_modules/
-nodePM2Deployers/*
 data/invoices/*.pdf
+nodePM2Deployers/*
+!nodePM2Deployers/.gitkeep
 
 *.swp
 *.out 
