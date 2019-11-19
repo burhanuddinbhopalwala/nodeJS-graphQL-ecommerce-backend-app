@@ -39,6 +39,13 @@ const accessLogStream = fs.createWriteStream(
 	{ flags: "a" }
 );
 
+//* For ELB Health Check!
+app.use("/health", (req, res, next) => {
+	res.status(200).json({
+		message: "Up..."
+	});
+});
+
 app.use(/\/((?!graphql).)*/, bodyParser.urlencoded({ extended: true }));
 app.use(/\/((?!graphql).)*/, bodyParser.json());
 app.use(helmet());
@@ -88,7 +95,7 @@ app.use(errorController.throw404);
 sequelize
 	.sync()
 	.then(data => {
-		console.log("mySQL sync successful and connected!");
+		console.log("mySQL Sync Successful && Connected!!!");
 		app.listen(PORT, () =>
 			console.log(`Started listening on port ${PORT}...`)
 		);

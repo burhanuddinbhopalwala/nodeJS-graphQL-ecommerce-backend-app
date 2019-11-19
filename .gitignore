@@ -1,14 +1,22 @@
+.vscode/
 dump/*.sql
+logs/*.log
 config/*.js
 node_modules/
 data/invoices/*.pdf
 nodePM2Deployers/*
 !nodePM2Deployers/.gitkeep
 
+*.swo
 *.swp
 *.out 
 *.log 
+.nvmrc
+*.lock
 *.yaml
 .vscode
+dump.rdb
 .DS_Store
+newrelic.js
+npm-debug.log
 package-lock.json
