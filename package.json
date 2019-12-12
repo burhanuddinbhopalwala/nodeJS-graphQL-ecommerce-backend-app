@@ -1,7 +1,7 @@
 {
-	"name": "ecommerce_backend_app",
+	"name": "nodeJS-graphQL-ecommerce-backend-app",
 	"version": "1.0.0",
-	"description": "nodeJS_ecommerce_backend_app",
+	"description": "nodeJS-graphQL-ecommerce-backend-app",
 	"main": "app.js",
 	"engines": {
 		"node": "10.9.0"
