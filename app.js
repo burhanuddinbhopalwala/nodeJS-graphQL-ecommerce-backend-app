@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const expressGraphQL = require("express-graphql");
+const rateLimiter = require("express-rate-limit");
 
 require(path.join(__dirname, "config", "env.js"));
 const sequelize = require(path.join(__dirname, "models")).sequelize;
@@ -34,10 +35,19 @@ const errorController = require(path.join(
 
 const app = express();
 const PORT = process.env.PORT || 3500;
+
+//* https://expressjs.com/en/guide/behind-proxies.html
+app.set("trust proxy", 1);
+
 const accessLogStream = fs.createWriteStream(
 	path.join(__dirname, "logs", "access.log"),
 	{ flags: "a" }
 );
+
+const apiRateLimiter = rateLimiter({
+	windowMs: 10 * 60 * 1000, //* 10 minutes
+	max: 100000
+});
 
 //* For ELB Health Check!
 app.use("/health", (req, res, next) => {
@@ -63,6 +73,7 @@ app.use((req, res, next) => {
 	next();
 });
 
+app.use("/api/", apiRateLimiter);
 app.use("/api/users", usersRoutes);
 app.use("/api/products", productsRoutes);
 app.use("/api/carts", cartsRoutes);
@@ -97,7 +108,7 @@ sequelize
 	.then(data => {
 		console.log("mySQL Sync Successful && Connected!!!");
 		app.listen(PORT, () =>
-			console.log(`Started listening on port ${PORT}...`)
+			console.log(`Listening and serving HTTP on :${PORT}`)
 		);
 	})
 	.catch(err => {

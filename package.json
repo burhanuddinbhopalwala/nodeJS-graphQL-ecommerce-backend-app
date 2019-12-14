@@ -9,7 +9,7 @@
 	"scripts": {
 		"start": "node app.js",
 		"start-dev": "nodemon app.js",
-		"test": "echo \"Error: no test specified\" && exit 0"
+		"test": "node ."
 	},
 	"repository": {
 		"type": "git",
@@ -22,10 +22,12 @@
 	},
 	"homepage": "https://github.com/burhanuddinbhopalwala/nodeJS-graphQL-ecommerce-backend-app#readme",
 	"dependencies": {
+		"@pm2/io": "^4.3.3",
 		"bcryptjs": "^2.4.3",
 		"body-parser": "^1.19.0",
 		"express": "^4.16.4",
 		"express-graphql": "^0.8.0",
+		"express-rate-limit": "^5.0.0",
 		"express-validator": "^5.3.1",
 		"graphql": "^14.3.1",
 		"helmet": "^3.18.0",
