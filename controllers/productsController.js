@@ -1,15 +1,23 @@
 "use strict";
 const path = require("path");
 
+const io = require("@pm2/io");
 const { validationResult } = require("express-validator/check");
 
 const db = require(path.join(__dirname, "..", "models", "index.js"));
 
 const Product = db.product;
 
+const getAllProductsMeter = io.meter({
+	name: "/api/products-Meter-req/min",
+	samples: 100, //* rate unit
+	timeframe: 60 //* sec
+});
+
 class ProductsController {
 	static async getAllProducts(req, res, next) {
 		try {
+			getAllProductsMeter.mark();
 			const currentPage = +req.query.page || 1;
 			const itemsPerPage = +process.env.PAGINATION_PER_PAGE;
 			const totalProductsCount = await Product.count({

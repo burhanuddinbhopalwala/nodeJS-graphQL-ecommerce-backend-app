@@ -2,6 +2,7 @@
 const path = require("path");
 const crypto = require("crypto");
 
+const io = require("@pm2/io");
 const { validationResult } = require("express-validator/check");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -18,6 +19,10 @@ const emailTransporter = nodemailer.createTransport(
 		auth: { api_key: process.env.SENDGRID_API_KEY }
 	})
 );
+
+const activeLoggedInUserCounter = io.counter({
+	name: "activeLoggedInUserCounter"
+});
 
 class UsersController {
 	static async getUserDetails(req, res, next) {
@@ -146,6 +151,8 @@ class UsersController {
 				),
 				{ expiresIn: "72h" }
 			);
+			activeLoggedInUserCounter.inc();
+			//TODO activeLoggedInUserCounter.dec() on logout
 			res.status(200).json({
 				message: "Logged in!",
 				data: {
