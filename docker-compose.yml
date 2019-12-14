@@ -1,31 +1,30 @@
-version: '3'
+version: "3"
 services:
-  nodeJS-graphQL-ecommerce-backend-app:
-    hostname: nodeJS-graphQL-ecommerce-backend-app
-    container_name: nodeJS-graphQL-ecommerce-backend-app
-    build: .
-    ports:
-      - 3500:3500
-    links:
-      - mysql
-    restart: on-failure
-    environment:
-      - NODE_ENV=development
-      - PORT=3500
-    volumes:
-      - $PWD:/home/nodejs/nodeJS-graphQL-ecommerce-backend-app #* nodemon
+    nodeJS-graphQL-ecommerce-backend-app:
+        hostname: nodeJS-graphQL-ecommerce-backend-app
+        container_name: nodeJS-graphQL-ecommerce-backend-app
+        build: .
+        ports:
+            - 3500:3500
+        links:
+            - mysql
+        restart: on-failure
+        environment:
+            - NODE_ENV=development
+            - PORT=3500
+        volumes:
+            - $PWD:/home/nodejs/nodeJS-graphQL-ecommerce-backend-app #* nodemon
 
-  mysql:
-    hostname: mysql
-    container_name: mysql
-    image: mysql
-    ports:
-      - 3306:3306
-    restart: on-failure
-    environment:
-      - DATABASE_HOST=mysql:3306
-      - DATABASE_USERNAME=root
-      - DATABASE_PASSWORD=null
-      - DATABASE_NAME=nodejs_ecommerce
-    volumes:
-
+    mysql:
+        hostname: mysql
+        container_name: mysql
+        image: mysql
+        ports:
+            - 3306:3306
+        restart: on-failure
+        environment:
+            - DATABASE_HOST=mysql:3306
+            - DATABASE_USERNAME=root
+            - DATABASE_PASSWORD=null
+            - DATABASE_NAME=nodejs_ecommerce
+        volumes:

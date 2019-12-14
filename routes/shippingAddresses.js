@@ -4,54 +4,54 @@ const path = require("path");
 const express = require("express");
 
 const customValidators = require(path.join(
-	__dirname,
-	"..",
-	"customMiddlewares",
-	"validators.js"
+    __dirname,
+    "..",
+    "customMiddlewares",
+    "validators.js"
 ));
 const isAuth = require(path.join(
-	__dirname,
-	"..",
-	"customMiddlewares",
-	"isAuth.js"
+    __dirname,
+    "..",
+    "customMiddlewares",
+    "isAuth.js"
 ));
 const shippingAddressesController = require(path.join(
-	__dirname,
-	"..",
-	"controllers",
-	"shippingAddressesController.js"
+    __dirname,
+    "..",
+    "controllers",
+    "shippingAddressesController.js"
 ));
 
 const router = express.Router();
 
 //* GET /shippingAddresses
 router.get(
-	"/",
-	isAuth,
-	shippingAddressesController.getAllUserShippingAdressesDetails
+    "/",
+    isAuth,
+    shippingAddressesController.getAllUserShippingAdressesDetails
 );
 
 //* POST /shippingAddresses PRIVATE
 router.post(
-	"/",
-	customValidators.shippingAddressValidator,
-	isAuth,
-	shippingAddressesController.addShippingAddress
+    "/",
+    customValidators.shippingAddressValidator,
+    isAuth,
+    shippingAddressesController.addShippingAddress
 );
 
 //* PUT /shippingAddresses/:shippingAddressId PRIVATE
 router.put(
-	"/:shippingAddressId",
-	customValidators.shippingAddressValidator,
-	isAuth,
-	shippingAddressesController.updateShippingAddress
+    "/:shippingAddressId",
+    customValidators.shippingAddressValidator,
+    isAuth,
+    shippingAddressesController.updateShippingAddress
 );
 
 //* DELETE /shippingAddresses/:shippingAddressId PRIVATE
 router.delete(
-	"/:shippingAddressId",
-	isAuth,
-	shippingAddressesController.deleteShippingAddress
+    "/:shippingAddressId",
+    isAuth,
+    shippingAddressesController.deleteShippingAddress
 );
 
 module.exports = router;

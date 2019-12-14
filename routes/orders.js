@@ -4,22 +4,22 @@ const path = require("path");
 const express = require("express");
 
 const customValidators = require(path.join(
-	__dirname,
-	"..",
-	"customMiddlewares",
-	"validators.js"
+    __dirname,
+    "..",
+    "customMiddlewares",
+    "validators.js"
 ));
 const isAuth = require(path.join(
-	__dirname,
-	"..",
-	"customMiddlewares",
-	"isAuth.js"
+    __dirname,
+    "..",
+    "customMiddlewares",
+    "isAuth.js"
 ));
 const ordersController = require(path.join(
-	__dirname,
-	"..",
-	"controllers",
-	"ordersController.js"
+    __dirname,
+    "..",
+    "controllers",
+    "ordersController.js"
 ));
 
 const router = express.Router();
@@ -42,10 +42,10 @@ router.post("/checkout", isAuth, ordersController.postCheckoutOrder);
 
 //* PATCH /orders/updateOrderStatus/:orderId PRIVATE
 router.patch(
-	"/:orderId/updateOrderStatus",
-	customValidators.updateOrderStatusValidator,
-	isAuth,
-	ordersController.updateOrderStatus
+    "/:orderId/updateOrderStatus",
+    customValidators.updateOrderStatusValidator,
+    isAuth,
+    ordersController.updateOrderStatus
 );
 
 module.exports = router;

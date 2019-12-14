@@ -4,22 +4,22 @@ const path = require("path");
 const express = require("express");
 
 const customValidators = require(path.join(
-	__dirname,
-	"..",
-	"customMiddlewares",
-	"validators.js"
+    __dirname,
+    "..",
+    "customMiddlewares",
+    "validators.js"
 ));
 const isAuth = require(path.join(
-	__dirname,
-	"..",
-	"customMiddlewares",
-	"isAuth.js"
+    __dirname,
+    "..",
+    "customMiddlewares",
+    "isAuth.js"
 ));
 const cartsController = require(path.join(
-	__dirname,
-	"..",
-	"controllers",
-	"cartsController.js"
+    __dirname,
+    "..",
+    "controllers",
+    "cartsController.js"
 ));
 
 const router = express.Router();
@@ -32,10 +32,10 @@ router.post("/", isAuth, cartsController.addToCart);
 
 //* PATCH /carts PRIVATE
 router.patch(
-	"/",
-	customValidators.updateCartValidator,
-	isAuth,
-	cartsController.updateCart
+    "/",
+    customValidators.updateCartValidator,
+    isAuth,
+    cartsController.updateCart
 );
 
 module.exports = router;
