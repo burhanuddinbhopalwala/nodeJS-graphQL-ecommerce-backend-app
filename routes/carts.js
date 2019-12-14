@@ -3,8 +3,6 @@ const path = require("path");
 
 const express = require("express");
 
-const router = express.Router();
-
 const customValidators = require(path.join(
 	__dirname,
 	"..",
@@ -23,6 +21,8 @@ const cartsController = require(path.join(
 	"controllers",
 	"cartsController.js"
 ));
+
+const router = express.Router();
 
 //* GET /carts PRIVATE
 router.get("/", isAuth, cartsController.getCart);

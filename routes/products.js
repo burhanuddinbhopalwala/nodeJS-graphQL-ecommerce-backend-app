@@ -3,8 +3,6 @@ const path = require("path");
 
 const express = require("express");
 
-const router = express.Router();
-
 const customValidators = require(path.join(
 	__dirname,
 	"..",
@@ -23,6 +21,8 @@ const productsController = require(path.join(
 	"controllers",
 	"productsController.js"
 ));
+
+const router = express.Router();
 
 //* GET /products
 router.get("/", productsController.getAllProducts);
