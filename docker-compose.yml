@@ -27,4 +27,3 @@ services:
             - DATABASE_USERNAME=root
             - DATABASE_PASSWORD=null
             - DATABASE_NAME=nodejs_ecommerce
-        volumes:
