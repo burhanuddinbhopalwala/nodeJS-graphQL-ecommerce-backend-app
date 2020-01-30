@@ -10,7 +10,7 @@ module.exports = async function isAuth(req, res, next) {
     try {
         const authHeader = req.get("Authorization");
         if (!authHeader) {
-            const error = new Error("Not authenticated!");
+            const error = new Error("!");
             error.httpStatusCode = 401;
             throw error;
         }
@@ -24,7 +24,7 @@ module.exports = async function isAuth(req, res, next) {
                 )
             );
         } catch (error) {
-            error.message = "Not authenticated!";
+            error.message = "Unauthenticated!";
             error.httpStatusCode = 401;
             throw error;
         }
