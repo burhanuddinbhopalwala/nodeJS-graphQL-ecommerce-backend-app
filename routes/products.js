@@ -28,7 +28,7 @@ const router = express.Router();
  * @swagger
  * /api/products:
  *   get:
- *     tags: ["products"]
+ *     tags: [products]
  *     name: /api/products
  *     summary: GET getAllProducts
  *     operationId: getAllProducts
@@ -46,13 +46,13 @@ const router = express.Router();
  *                properties:
  *                  message:
  *                    type: string
- *                    example: "Products fetched!"
+ *                    example: Products fetched!
  *                  data:
  *                    type: object
  *                    properties:
  *                      products:
  *                        type: array
- *                        $ref: '#/components/schemas/Product'
+ *                        $ref: "#/components/schemas/Product"
  *                      currentPage:
  *                        type: integer
  *                        example: 1
@@ -71,21 +71,87 @@ const router = express.Router();
  *                      lastPage:
  *                        type: integer
  *                        example: 5
- *       404:
- *         description: Route not found!
+ *       401:
+ *         description: Unauthenticated!
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
+ *                 name:
+ *                   type: string
+ *                   example: <error.name>
  *                 message:
  *                   type: string
- *                   example: Route not found!
+ *                   example: Unauthenticated!
+ *                 data:
+ *                   type: string
+ *                   example: <error.data>
+ *       403:
+ *         description: Unauthorized!
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 name:
+ *                   type: string
+ *                   example: <error.name>
+ *                 message:
+ *                   type: string
+ *                   example: Unauthorized!
+ *                 data:
+ *                   type: string
+ *                   example: <error.data>
+ *       404:
+ *         description: Route/Product not found!
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 name:
+ *                   type: string
+ *                   example: Route/Product not found!
+ *                 message:
+ *                   type: string
+ *                   example: Route/Product not found!
  *                 data:
  *                   type: object
  *                   properties: null
+ *       422:
+ *         description: Client invalid input!
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 name:
+ *                   type: string
+ *                   example: <error.name>
+ *                 message:
+ *                   type: string
+ *                   example: Client invalid input!
+ *                 data:
+ *                   type: string
+ *                   example: <error.data>
  *       Others:
- *         description: Errored!
+ *         description: Others!
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 name:
+ *                   type: string
+ *                   example: <error.name>
+ *                 message:
+ *                   type: string
+ *                   example: <error.message>
+ *                 data:
+ *                   type: string
+ *                   example: <error.data>
+ *
  */
 //* GET /products
 router.get("/", productsController.getAllProducts);
@@ -94,7 +160,7 @@ router.get("/", productsController.getAllProducts);
  * @swagger
  * /api/products:
  *   post:
- *     tags: ["products"]
+ *     tags: [products]
  *     name: /api/products
  *     summary: POST addProduct
  *     operationId: addProduct
@@ -119,37 +185,98 @@ router.get("/", productsController.getAllProducts);
  *       201:
  *         description: Product created!
  *         content:
- *            application/json:
- *              schema:
- *                type: object
- *                properties:
- *                  message:
- *                    type: string
- *                    example: "Product created!"
- *                  data:
- *                    type: object
- *                    properties:
- *                      product:
- *                        $ref: '#/components/schemas/Product'
- *       401:
- *         description: Unauthenticated!
- *       403:
- *         description: Unauthorized!
- *       404:
- *         description: Route not found!
- *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
  *                 message:
  *                   type: string
- *                   example: Route not found!
+ *                   example: Product created!
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     product:
+ *                       $ref: "#/components/schemas/Product"
+ *       401:
+ *         description: Unauthenticated!
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 name:
+ *                   type: string
+ *                   example: <error.name>
+ *                 message:
+ *                   type: string
+ *                   example: Unauthenticated!
+ *                 data:
+ *                   type: string
+ *                   example: <error.data>
+ *       403:
+ *         description: Unauthorized!
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 name:
+ *                   type: string
+ *                   example: <error.name>
+ *                 message:
+ *                   type: string
+ *                   example: Unauthorized!
+ *                 data:
+ *                   type: string
+ *                   example: <error.data>
+ *       404:
+ *         description: Route/Product not found!
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 name:
+ *                   type: string
+ *                   example: Route/Product not found!
+ *                 message:
+ *                   type: string
+ *                   example: Route/Product not found!
  *                 data:
  *                   type: object
  *                   properties: null
+ *       422:
+ *         description: Client invalid input!
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 name:
+ *                   type: string
+ *                   example: <error.name>
+ *                 message:
+ *                   type: string
+ *                   example: Client invalid input!
+ *                 data:
+ *                   type: string
+ *                   example: <error.data>
  *       Others:
- *         description: Errored!
+ *         description: Others!
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 name:
+ *                   type: string
+ *                   example: <error.name>
+ *                 message:
+ *                   type: string
+ *                   example: <error.message>
+ *                 data:
+ *                   type: string
+ *                   example: <error.data>
  */
 //* POST /products PRIVATE
 router.post(
@@ -163,7 +290,7 @@ router.post(
  * @swagger
  * /api/products/{productId}:
  *   put:
- *     tags: ["products"]
+ *     tags: [products]
  *     name: /api/products/:productId
  *     summary: PUT updateProduct
  *     operationId: updateProduct
@@ -192,37 +319,98 @@ router.post(
  *       200:
  *         description: Product updated!
  *         content:
- *            application/json:
- *              schema:
- *                type: object
- *                properties:
- *                  message:
- *                    type: string
- *                    example: "Product updated!"
- *                  data:
- *                    type: object
- *                    properties:
- *                      product:
- *                        $ref: '#/components/schemas/Product'
- *       401:
- *         description: Unauthenticated!
- *       403:
- *         description: Unauthorized!
- *       404:
- *         description: Route not found!
- *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
  *                 message:
  *                   type: string
- *                   example: Route not found!
+ *                   example: Product updated!
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     product:
+ *                       $ref: "#/components/schemas/Product"
+ *       401:
+ *         description: Unauthenticated!
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 name:
+ *                   type: string
+ *                   example: <error.name>
+ *                 message:
+ *                   type: string
+ *                   example: Unauthenticated!
+ *                 data:
+ *                   type: string
+ *                   example: <error.data>
+ *       403:
+ *         description: Unauthorized!
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 name:
+ *                   type: string
+ *                   example: <error.name>
+ *                 message:
+ *                   type: string
+ *                   example: Unauthorized!
+ *                 data:
+ *                   type: string
+ *                   example: <error.data>
+ *       404:
+ *         description: Route/Product not found!
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 name:
+ *                   type: string
+ *                   example: Route/Product not found!
+ *                 message:
+ *                   type: string
+ *                   example: Route/Product not found!
  *                 data:
  *                   type: object
  *                   properties: null
+ *       422:
+ *         description: Client invalid input!
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 name:
+ *                   type: string
+ *                   example: <error.name>
+ *                 message:
+ *                   type: string
+ *                   example: Client invalid input!
+ *                 data:
+ *                   type: string
+ *                   example: <error.data>
  *       Others:
- *         description: Errored!
+ *         description: Others!
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 name:
+ *                   type: string
+ *                   example: <error.name>
+ *                 message:
+ *                   type: string
+ *                   example: <error.message>
+ *                 data:
+ *                   type: string
+ *                   example: <error.data>
  */
 //* PUT /products/:productId PRIVATE
 router.put(
@@ -236,7 +424,7 @@ router.put(
  * @swagger
  * /api/products/{productId}:
  *   delete:
- *     tags: ["products"]
+ *     tags: [products]
  *     name: /api/products/:productId
  *     summary: DELETE deleteProduct
  *     operationId: deleteProduct
@@ -254,37 +442,98 @@ router.put(
  *       200:
  *         description: Product destroyed!
  *         content:
- *            application/json:
- *              schema:
- *                type: object
- *                properties:
- *                  message:
- *                    type: string
- *                    example: "Product destroyed!"
- *                  data:
- *                    type: object
- *                    properties:
- *                      product:
- *                        $ref: '#/components/schemas/Product'
- *       401:
- *         description: Unauthenticated!
- *       403:
- *         description: Unauthorized!
- *       404:
- *         description: Route not found!
- *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
  *                 message:
  *                   type: string
- *                   example: Route not found!
+ *                   example: Product destroyed!
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     product:
+ *                       $ref: "#/components/schemas/Product"
+ *       401:
+ *         description: Unauthenticated!
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 name:
+ *                   type: string
+ *                   example: <error.name>
+ *                 message:
+ *                   type: string
+ *                   example: Unauthenticated!
+ *                 data:
+ *                   type: string
+ *                   example: <error.data>
+ *       403:
+ *         description: Unauthorized!
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 name:
+ *                   type: string
+ *                   example: <error.name>
+ *                 message:
+ *                   type: string
+ *                   example: Unauthorized!
+ *                 data:
+ *                   type: string
+ *                   example: <error.data>
+ *       404:
+ *         description: Route/Product not found!
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 name:
+ *                   type: string
+ *                   example: Route/Product not found!
+ *                 message:
+ *                   type: string
+ *                   example: Route/Product not found!
  *                 data:
  *                   type: object
  *                   properties: null
+ *       422:
+ *         description: Client invalid input!
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 name:
+ *                   type: string
+ *                   example: <error.name>
+ *                 message:
+ *                   type: string
+ *                   example: Client invalid input!
+ *                 data:
+ *                   type: string
+ *                   example: <error.data>
  *       Others:
- *         description: Errored!
+ *         description: Others!
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 name:
+ *                   type: string
+ *                   example: <error.name>
+ *                 message:
+ *                   type: string
+ *                   example: <error.message>
+ *                 data:
+ *                   type: string
+ *                   example: <error.data>
  */
 //* DELETE /products/:productId PRIVATE
 router.delete("/:productId", isAuth, productsController.deleteProduct);

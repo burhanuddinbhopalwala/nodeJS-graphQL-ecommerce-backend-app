@@ -91,7 +91,7 @@ module.exports = {
         try {
             productValidator(productInput);
             if (!req.user.isAdmin) {
-                const error = new Error("Not authorized!");
+                const error = new Error("Unauthorized!");
                 error.httpStatusCode = 403;
                 throw error;
             }
@@ -119,7 +119,7 @@ module.exports = {
         try {
             productValidator(productInput);
             if (!req.user.isAdmin) {
-                const error = new Error("Not authorized!");
+                const error = new Error("Unauthorized!");
                 error.httpStatusCode = 403;
                 throw error;
             }
@@ -131,7 +131,7 @@ module.exports = {
             }
             const productCreator = await product.getCreator(); //* id comparison, also OK
             if (JSON.stringify(productCreator) !== JSON.stringify(req.user)) {
-                const error = new Error("Not authorized!");
+                const error = new Error("Unauthorized!");
                 error.httpStatusCode = 403;
                 throw error;
             }
@@ -154,7 +154,7 @@ module.exports = {
     deleteProduct: async function({ productId }, req) {
         try {
             if (!req.user.isAdmin) {
-                const error = new Error("Not authorized!");
+                const error = new Error("Unauthorized!");
                 error.httpStatusCode = 403;
                 throw error;
             }

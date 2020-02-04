@@ -2,7 +2,11 @@
 
 class ErrorsController {
     static throw404(req, res, next) {
-        res.status(404).json({ message: "Route not found!", data: {} });
+        res.status(404).json({
+            name: "Route not found!",
+            message: "Route not found!",
+            data: {}
+        });
     }
 
     static throwError(error, req, res, next) {

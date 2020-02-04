@@ -69,7 +69,7 @@ class ProductsController {
                 throw error;
             }
             if (!req.user.isAdmin) {
-                const error = new Error("Not authorized!");
+                const error = new Error("Unauthorized!");
                 error.httpStatusCode = 403;
                 throw error;
             }
@@ -100,7 +100,7 @@ class ProductsController {
                 throw error;
             }
             if (!req.user.isAdmin) {
-                const error = new Error("Not authorized!");
+                const error = new Error("Unauthorized!");
                 error.httpStatusCode = 403;
                 throw error;
             }
@@ -113,7 +113,7 @@ class ProductsController {
             }
             const productCreator = await product.getCreator(); //* "id" comparison, also OK
             if (JSON.stringify(productCreator) !== JSON.stringify(req.user)) {
-                const error = new Error("Not authorized!");
+                const error = new Error("Unauthorized!");
                 error.httpStatusCode = 403;
                 throw error;
             }
@@ -137,7 +137,7 @@ class ProductsController {
     static async deleteProduct(req, res, next) {
         try {
             if (!req.user.isAdmin) {
-                const error = new Error("Not authorized!");
+                const error = new Error("Unauthorized!");
                 error.httpStatusCode = 403;
                 throw error;
             }
