@@ -72,86 +72,15 @@ const router = express.Router();
  *                        type: integer
  *                        example: 5
  *       401:
- *         description: Unauthenticated!
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 name:
- *                   type: string
- *                   example: <error.name>
- *                 message:
- *                   type: string
- *                   example: Unauthenticated!
- *                 data:
- *                   type: string
- *                   example: <error.data>
+ *         $ref: "#/components/schemas/Response401"
  *       403:
- *         description: Unauthorized!
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 name:
- *                   type: string
- *                   example: <error.name>
- *                 message:
- *                   type: string
- *                   example: Unauthorized!
- *                 data:
- *                   type: string
- *                   example: <error.data>
+ *         $ref: "#/components/schemas/Response403"
  *       404:
- *         description: Route/Product not found!
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 name:
- *                   type: string
- *                   example: Route/Product not found!
- *                 message:
- *                   type: string
- *                   example: Route/Product not found!
- *                 data:
- *                   type: object
- *                   properties: null
+ *         $ref: "#/components/schemas/Response404"
  *       422:
- *         description: Client invalid input!
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 name:
- *                   type: string
- *                   example: <error.name>
- *                 message:
- *                   type: string
- *                   example: Client invalid input!
- *                 data:
- *                   type: string
- *                   example: <error.data>
- *       Others:
- *         description: Others!
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 name:
- *                   type: string
- *                   example: <error.name>
- *                 message:
- *                   type: string
- *                   example: <error.message>
- *                 data:
- *                   type: string
- *                   example: <error.data>
- *
+ *         $ref: "#/components/schemas/Response422"
+ *       Else:
+ *         $ref: "#/components/schemas/ResponseElse"
  */
 //* GET /products
 router.get("/", productsController.getAllProducts);
@@ -198,85 +127,15 @@ router.get("/", productsController.getAllProducts);
  *                     product:
  *                       $ref: "#/components/schemas/Product"
  *       401:
- *         description: Unauthenticated!
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 name:
- *                   type: string
- *                   example: <error.name>
- *                 message:
- *                   type: string
- *                   example: Unauthenticated!
- *                 data:
- *                   type: string
- *                   example: <error.data>
+ *         $ref: "#/components/schemas/Response401"
  *       403:
- *         description: Unauthorized!
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 name:
- *                   type: string
- *                   example: <error.name>
- *                 message:
- *                   type: string
- *                   example: Unauthorized!
- *                 data:
- *                   type: string
- *                   example: <error.data>
+ *         $ref: "#/components/schemas/Response403"
  *       404:
- *         description: Route/Product not found!
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 name:
- *                   type: string
- *                   example: Route/Product not found!
- *                 message:
- *                   type: string
- *                   example: Route/Product not found!
- *                 data:
- *                   type: object
- *                   properties: null
+ *         $ref: "#/components/schemas/Response404"
  *       422:
- *         description: Client invalid input!
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 name:
- *                   type: string
- *                   example: <error.name>
- *                 message:
- *                   type: string
- *                   example: Client invalid input!
- *                 data:
- *                   type: string
- *                   example: <error.data>
- *       Others:
- *         description: Others!
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 name:
- *                   type: string
- *                   example: <error.name>
- *                 message:
- *                   type: string
- *                   example: <error.message>
- *                 data:
- *                   type: string
- *                   example: <error.data>
+ *         $ref: "#/components/schemas/Response422"
+ *       Else:
+ *         $ref: "#/components/schemas/ResponseElse"
  */
 //* POST /products PRIVATE
 router.post(
@@ -332,85 +191,15 @@ router.post(
  *                     product:
  *                       $ref: "#/components/schemas/Product"
  *       401:
- *         description: Unauthenticated!
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 name:
- *                   type: string
- *                   example: <error.name>
- *                 message:
- *                   type: string
- *                   example: Unauthenticated!
- *                 data:
- *                   type: string
- *                   example: <error.data>
+ *         $ref: "#/components/schemas/Response401"
  *       403:
- *         description: Unauthorized!
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 name:
- *                   type: string
- *                   example: <error.name>
- *                 message:
- *                   type: string
- *                   example: Unauthorized!
- *                 data:
- *                   type: string
- *                   example: <error.data>
+ *         $ref: "#/components/schemas/Response403"
  *       404:
- *         description: Route/Product not found!
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 name:
- *                   type: string
- *                   example: Route/Product not found!
- *                 message:
- *                   type: string
- *                   example: Route/Product not found!
- *                 data:
- *                   type: object
- *                   properties: null
+ *         $ref: "#/components/schemas/Response404"
  *       422:
- *         description: Client invalid input!
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 name:
- *                   type: string
- *                   example: <error.name>
- *                 message:
- *                   type: string
- *                   example: Client invalid input!
- *                 data:
- *                   type: string
- *                   example: <error.data>
- *       Others:
- *         description: Others!
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 name:
- *                   type: string
- *                   example: <error.name>
- *                 message:
- *                   type: string
- *                   example: <error.message>
- *                 data:
- *                   type: string
- *                   example: <error.data>
+ *         $ref: "#/components/schemas/Response422"
+ *       Else:
+ *         $ref: "#/components/schemas/ResponseElse"
  */
 //* PUT /products/:productId PRIVATE
 router.put(
@@ -455,85 +244,15 @@ router.put(
  *                     product:
  *                       $ref: "#/components/schemas/Product"
  *       401:
- *         description: Unauthenticated!
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 name:
- *                   type: string
- *                   example: <error.name>
- *                 message:
- *                   type: string
- *                   example: Unauthenticated!
- *                 data:
- *                   type: string
- *                   example: <error.data>
+ *         $ref: "#/components/schemas/Response401"
  *       403:
- *         description: Unauthorized!
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 name:
- *                   type: string
- *                   example: <error.name>
- *                 message:
- *                   type: string
- *                   example: Unauthorized!
- *                 data:
- *                   type: string
- *                   example: <error.data>
+ *         $ref: "#/components/schemas/Response403"
  *       404:
- *         description: Route/Product not found!
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 name:
- *                   type: string
- *                   example: Route/Product not found!
- *                 message:
- *                   type: string
- *                   example: Route/Product not found!
- *                 data:
- *                   type: object
- *                   properties: null
+ *         $ref: "#/components/schemas/Response404"
  *       422:
- *         description: Client invalid input!
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 name:
- *                   type: string
- *                   example: <error.name>
- *                 message:
- *                   type: string
- *                   example: Client invalid input!
- *                 data:
- *                   type: string
- *                   example: <error.data>
- *       Others:
- *         description: Others!
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 name:
- *                   type: string
- *                   example: <error.name>
- *                 message:
- *                   type: string
- *                   example: <error.message>
- *                 data:
- *                   type: string
- *                   example: <error.data>
+ *         $ref: "#/components/schemas/Response422"
+ *       Else:
+ *         $ref: "#/components/schemas/ResponseElse"
  */
 //* DELETE /products/:productId PRIVATE
 router.delete("/:productId", isAuth, productsController.deleteProduct);

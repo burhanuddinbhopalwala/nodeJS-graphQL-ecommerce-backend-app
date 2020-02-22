@@ -146,7 +146,7 @@ const swaggerDefinition = {
 };
 const options = {
     swaggerDefinition,
-    apis: ["./models/*.js", "./routes/*.js"]
+    apis: ["./models/*.js", "./routes/*.js", "./swaggerComponents/*.js"]
 };
 const swaggerSpec = swaggerJsDoc(options);
 
