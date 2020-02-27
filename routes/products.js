@@ -77,8 +77,12 @@ const router = express.Router();
  *         $ref: "#/components/schemas/Response403"
  *       404:
  *         $ref: "#/components/schemas/Response404"
+ *       413:
+ *         $ref: "#/components/schemas/Response413"
  *       422:
  *         $ref: "#/components/schemas/Response422"
+ *       429:
+ *         $ref: "#/components/schemas/Response429"
  *       Else:
  *         $ref: "#/components/schemas/ResponseElse"
  */
@@ -132,8 +136,12 @@ router.get("/", productsController.getAllProducts);
  *         $ref: "#/components/schemas/Response403"
  *       404:
  *         $ref: "#/components/schemas/Response404"
+ *       413:
+ *         $ref: "#/components/schemas/Response413"
  *       422:
  *         $ref: "#/components/schemas/Response422"
+ *       429:
+ *         $ref: "#/components/schemas/Response429"
  *       Else:
  *         $ref: "#/components/schemas/ResponseElse"
  */
@@ -196,8 +204,12 @@ router.post(
  *         $ref: "#/components/schemas/Response403"
  *       404:
  *         $ref: "#/components/schemas/Response404"
+ *       413:
+ *         $ref: "#/components/schemas/Response413"
  *       422:
  *         $ref: "#/components/schemas/Response422"
+ *       429:
+ *         $ref: "#/components/schemas/Response429"
  *       Else:
  *         $ref: "#/components/schemas/ResponseElse"
  */
@@ -249,8 +261,12 @@ router.put(
  *         $ref: "#/components/schemas/Response403"
  *       404:
  *         $ref: "#/components/schemas/Response404"
+ *       413:
+ *         $ref: "#/components/schemas/Response413"
  *       422:
  *         $ref: "#/components/schemas/Response422"
+ *       429:
+ *         $ref: "#/components/schemas/Response429"
  *       Else:
  *         $ref: "#/components/schemas/ResponseElse"
  */
