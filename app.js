@@ -3,11 +3,14 @@ const fs = require("fs");
 const path = require("path");
 
 const express = require("express");
-const bodyParser = require("body-parser");
-const helmet = require("helmet");
 const morgan = require("morgan");
-const expressGraphQL = require("express-graphql");
+const xssClean = require("xss-clean");
+const helmet = require("helmet");
 const rateLimiter = require("express-rate-limit");
+const csurf = require("csurf");
+const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
+const expressGraphQL = require("express-graphql");
 const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUiExpress = require("swagger-ui-express");
 
@@ -38,8 +41,9 @@ const errorController = require(path.join(
 const app = express();
 const PORT = process.env.PORT || 3500;
 
-//* https://expressjs.com/en/guide/behind-proxies.html
 app.set("trust proxy", 1);
+//* https://expressjs.com/en/guide/behind-proxies.html
+//* https://medium.com/@sevcsik/authentication-using-https-client-certificates-3c9d270e8326
 
 //* Logging
 const accessLogStream = fs.createWriteStream(
@@ -49,22 +53,35 @@ const accessLogStream = fs.createWriteStream(
 
 //* API rate limiter
 const apiRateLimiter = rateLimiter({
-    windowMs: 10 * 60 * 1000, //* 10 minutes
-    max: 100000
+    max: 1000, //* limit each IP to 100 requests per windowMs
+    windowMs: 1 * 1 * 1000, //* 1 sec, min * sec * 1000
+    message: "Too many requests" //* message to send
 });
 
-//* For ELB Health Check!
-app.use("/health", (req, res, next) => {
-    res.status(200).json({
-        message: "Up..."
-    });
+//! CSRF Attacks
+const csrfProtection = csurf({
+    cookie: true
 });
 
-//* Middlewares
+//* Security Middlewares
+app.use(morgan("combined", { stream: accessLogStream })); //* Logging
+app.use("/api", apiRateLimiter); //! DoS Attacks + Brute Force Attacks
+app.use(express.json({ limit: "10kb" })); //! Body limit is 10 - DoS Attacks
+app.use(xssClean()); //! Data (HTML & JS-Scripts ) Sanitization against - XSS Attacks
+app.use(helmet()); //! XSS Attacks
+//! No SQL Sequelize RAW Queries - SQL Injection Attacks
+//* https://itnext.io/make-security-on-your-nodejs-api-the-priority-50da8dc71d68
+
+//* Other Middlewares
 app.use(/\/((?!graphql).)*/, bodyParser.urlencoded({ extended: true }));
 app.use(/\/((?!graphql).)*/, bodyParser.json());
-app.use(helmet());
-app.use(morgan("combined", { stream: accessLogStream }));
+app.use(cookieParser()); //* // We need this because "cookie" is true in csrfProtection
+app.use(csrfProtection); //* _csrf, req.csrfToken() + req.body._csrf
+// app.all("*", function(req, res) {
+//     res.cookie("XSRF-TOKEN", req.csrfToken());
+// }); //* SPA
+//* err.code === "EBADCSRFTOKEN"
+//! CSRF Attacks
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader(
@@ -78,8 +95,26 @@ app.use((req, res, next) => {
     next();
 });
 
+//* For ALB Health Check!
+app.get("/api/health", (req, res, next) => {
+    const uptimeSeconds = process.uptime();
+    const uptime =
+        Math.floor(uptimeSeconds / (3600 * 24)) +
+        " days " +
+        Math.floor((uptimeSeconds % (3600 * 24)) / 3600) +
+        " hours " +
+        Math.floor((uptimeSeconds % 3600) / 60) +
+        " minutes " +
+        Math.floor(uptimeSeconds % 60) +
+        " seconds";
+    res.status(200).json({
+        message: "Up...",
+        uptime: uptime,
+        timestamp: new Date().toString()
+    });
+});
+
 //* Buisness routes
-app.use("/api/", apiRateLimiter);
 app.use("/api/users", usersRoutes);
 app.use("/api/products", productsRoutes);
 app.use("/api/carts", cartsRoutes);
@@ -155,7 +190,7 @@ app.get("/swagger.json", function(req, res) {
     res.send(swaggerSpec);
 });
 app.use(
-    "/api-docs",
+    "/api/api-docs",
     swaggerUiExpress.serve,
     swaggerUiExpress.setup(swaggerSpec)
 );
