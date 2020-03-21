@@ -1,4 +1,5 @@
 "use strict";
+//* https://bundlephobia.com
 const fs = require("fs");
 const path = require("path");
 
@@ -32,6 +33,7 @@ const graphQLResolvers = require(path.join(
     "graphQL",
     "resolvers.js"
 ));
+const masterJobs = require(path.join(__dirname, "jobs", "masterJobs.js"));
 const errorController = require(path.join(
     __dirname,
     "controllers",
@@ -200,6 +202,9 @@ app.use(
  * https://scotch.io/tutorials/speed-up-your-restful-api-development-in-node-js-with-swagger
  * https://levelup.gitconnected.com/the-simplest-way-to-add-swagger-to-a-node-js-project-c2a4aa895a3c
  */
+
+//* Scheduling master jobs
+masterJobs.runMasterJobs();
 
 //* Error handling
 app.use(errorController.throwError);
