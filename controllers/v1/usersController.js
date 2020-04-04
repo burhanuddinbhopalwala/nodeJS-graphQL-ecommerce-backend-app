@@ -9,7 +9,7 @@ const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const nodemailerSendgridTransporter = require("nodemailer-sendgrid-transport");
 
-const db = require(path.join(__dirname, "..", "models", "index.js"));
+const db = require(path.join(__dirname, "..", "..", "models", "index.js"));
 
 const { Op } = db.Sequelize;
 const User = db.user;

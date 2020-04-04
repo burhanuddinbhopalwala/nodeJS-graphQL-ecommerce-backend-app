@@ -3,6 +3,8 @@
 const fs = require("fs");
 const path = require("path");
 
+require(path.join(__dirname, "config", "env.js"));
+
 const express = require("express");
 const morgan = require("morgan");
 const xssClean = require("xss-clean");
@@ -15,22 +17,43 @@ const expressGraphQL = require("express-graphql");
 const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUiExpress = require("swagger-ui-express");
 
-require(path.join(__dirname, "config", "env.js"));
 const sequelize = require(path.join(__dirname, "models")).sequelize;
-const isAuth = require(path.join(__dirname, "customMiddlewares", "isAuth.js"));
-const usersRoutes = require(path.join(__dirname, "routes", "users.js"));
-const productsRoutes = require(path.join(__dirname, "routes", "products.js"));
-const cartsRoutes = require(path.join(__dirname, "routes", "carts.js"));
-const shippingAddressesRoutes = require(path.join(
+const isAuth = require(path.join(
+    __dirname,
+    "customMiddlewares",
+    "v1",
+    "isAuth.js"
+));
+const v1UsersRoutes = require(path.join(__dirname, "routes", "v1", "users.js"));
+const v1ProductsRoutes = require(path.join(
     __dirname,
     "routes",
+    "v1",
+    "products.js"
+));
+const v1CartsRoutes = require(path.join(__dirname, "routes", "v1", "carts.js"));
+const v1ShippingAddressesRoutes = require(path.join(
+    __dirname,
+    "routes",
+    "v1",
     "shippingAddresses.js"
 ));
-const ordersRoutes = require(path.join(__dirname, "routes", "orders.js"));
-const graphQLSchema = require(path.join(__dirname, "graphQL", "schema.js"));
-const graphQLResolvers = require(path.join(
+const v1OrdersRoutes = require(path.join(
+    __dirname,
+    "routes",
+    "v1",
+    "orders.js"
+));
+const v1GraphQLSchema = require(path.join(
     __dirname,
     "graphQL",
+    "v1",
+    "schema.js"
+));
+const v1GraphQLResolvers = require(path.join(
+    __dirname,
+    "graphQL",
+    "v1",
     "resolvers.js"
 ));
 const masterJobs = require(path.join(__dirname, "jobs", "masterJobs.js"));
@@ -78,7 +101,7 @@ app.use(helmet()); //! XSS Attacks
 app.use(/\/((?!graphql).)*/, bodyParser.urlencoded({ extended: true }));
 app.use(/\/((?!graphql).)*/, bodyParser.json());
 app.use(cookieParser()); //* // We need this because "cookie" is true in csrfProtection
-app.use(csrfProtection); //* _csrf, req.csrfToken() + req.body._csrf
+if (process.env.NODE_ENV === "production") app.use(csrfProtection); //* _csrf, req.csrfToken() + req.body._csrf
 // app.all("*", function(req, res) {
 //     res.cookie("XSRF-TOKEN", req.csrfToken());
 // }); //* SPA
@@ -117,20 +140,20 @@ app.get("/api/health", (req, res, next) => {
 });
 
 //* Buisness routes
-app.use("/api/users", usersRoutes);
-app.use("/api/products", productsRoutes);
-app.use("/api/carts", cartsRoutes);
-app.use("/api/shippingAddresses", shippingAddressesRoutes);
-app.use("/api/orders", ordersRoutes);
+app.use("/api/v1/users", v1UsersRoutes);
+app.use("/api/v1/products", v1ProductsRoutes);
+app.use("/api/v1/carts", v1CartsRoutes);
+app.use("/api/v1/shippingAddresses", v1ShippingAddressesRoutes);
+app.use("/api/v1/orders", v1OrdersRoutes);
 
 //* Only for graphQL
 //! Don't use custom productValidator here, as graphQL query will not resolve, leads to errors only
 app.use(
-    "/api/graphql",
+    "/api/v1/graphql",
     isAuth,
     expressGraphQL({
-        schema: graphQLSchema,
-        rootValue: graphQLResolvers,
+        schema: v1GraphQLSchema,
+        rootValue: v1GraphQLResolvers,
         graphiql: true,
         formatError(error) {
             if (!error.originalError) return error;
@@ -212,7 +235,7 @@ app.use(errorController.throw404);
 
 //* Sequelize sync
 sequelize
-    .sync()
+    .sync({ force: false })
     .then(data => {
         console.log("mySQL Sync Successful && Connected!!!");
         app.listen(PORT, () =>

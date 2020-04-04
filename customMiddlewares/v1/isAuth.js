@@ -2,7 +2,7 @@
 const path = require("path");
 const jwt = require("jsonwebtoken");
 
-const db = require(path.join(__dirname, "..", "models", "index.js"));
+const db = require(path.join(__dirname, "..", "..", "models", "index.js"));
 
 const User = db.user;
 
@@ -10,7 +10,7 @@ module.exports = async function isAuth(req, res, next) {
     try {
         const authHeader = req.get("Authorization");
         if (!authHeader) {
-            const error = new Error("!");
+            const error = new Error("Unauthorized!");
             error.httpStatusCode = 401;
             throw error;
         }

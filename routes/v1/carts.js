@@ -6,31 +6,37 @@ const express = require("express");
 const customValidators = require(path.join(
     __dirname,
     "..",
+    "..",
     "customMiddlewares",
+    "v1",
     "validators.js"
 ));
 const isAuth = require(path.join(
     __dirname,
     "..",
+    "..",
     "customMiddlewares",
+    "v1",
     "isAuth.js"
 ));
 const cartsController = require(path.join(
     __dirname,
     "..",
+    "..",
     "controllers",
+    "v1",
     "cartsController.js"
 ));
 
 const router = express.Router();
 
-//* GET /carts PRIVATE
+//* GET /api/v1/carts PRIVATE
 router.get("/", isAuth, cartsController.getCart);
 
-//* POST /carts PRIVATE
+//* POST /api/v1/carts PRIVATE
 router.post("/", isAuth, cartsController.addToCart);
 
-//* PATCH /carts PRIVATE
+//* PATCH /api/v1/carts PRIVATE
 router.patch(
     "/",
     customValidators.updateCartValidator,

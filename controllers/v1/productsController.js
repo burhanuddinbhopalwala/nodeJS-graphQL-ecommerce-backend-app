@@ -4,7 +4,7 @@ const path = require("path");
 const io = require("@pm2/io");
 const { validationResult } = require("express-validator/check");
 
-const db = require(path.join(__dirname, "..", "models", "index.js"));
+const db = require(path.join(__dirname, "..", "..", "models", "index.js"));
 
 const Product = db.product;
 
