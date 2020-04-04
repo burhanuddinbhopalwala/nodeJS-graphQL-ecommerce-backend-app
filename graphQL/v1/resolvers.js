@@ -2,7 +2,7 @@
 const path = require("path");
 
 const validator = require("validator");
-const db = require(path.join(__dirname, "..", "models", "index.js"));
+const db = require(path.join(__dirname, "..", "..", "models", "index.js"));
 
 const Product = db.product;
 

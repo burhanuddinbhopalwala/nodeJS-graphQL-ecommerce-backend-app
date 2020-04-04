@@ -6,68 +6,69 @@ const express = require("express");
 const customValidators = require(path.join(
     __dirname,
     "..",
+    "..",
     "customMiddlewares",
+    "v1",
     "validators.js"
 ));
 const isAuth = require(path.join(
     __dirname,
     "..",
+    "..",
     "customMiddlewares",
+    "v1",
     "isAuth.js"
 ));
 const usersController = require(path.join(
     __dirname,
     "..",
+    "..",
     "controllers",
+    "v1",
     "usersController.js"
 ));
 
 const router = express.Router();
 
-//* GET /users/getUserDetails PRIVATE
-router.get("/getUserDetails", isAuth, usersController.getUserDetails);
+//* GET /api/v1/users/get-user-details PRIVATE
+router.get("/get-user-details", isAuth, usersController.getUserDetails);
 
-//* GET /users/products PRIVATE
-//* Desc: All the products created by the user
+//* GET /api/v1/users/products PRIVATE
+router.get("/products", isAuth, usersController.getAllUserProductsDetails);
+
+//* GET /api/v1/users/reset-password-verify/:resetToken
 router.get(
-    "/getAllUserProductsDetails",
-    isAuth,
-    usersController.getAllUserProductsDetails
+    "/reset-password-verify/:resetToken",
+    usersController.resetPasswordVerify
 );
 
-//* POST /users/signup
+//* POST /api/v1/users/signup
 router.post(
     "/signup",
     customValidators.signupValidator,
     usersController.signup
 );
 
-//* POST /users/login
+//* POST /api/v1/users/login
 router.post("/login", customValidators.loginValidator, usersController.login);
 
-//* PATCH /users/resetPassword
+//* PATCH /api/v1/users/reset-password
 router.patch(
-    "/resetPassword",
+    "/reset-password",
     customValidators.resetPasswordValidator,
     usersController.resetPassword
 );
 
-//* GET /users/resetPasswordVerify/:resetToken
-router.get(
-    "/resetPasswordVerify/:resetToken",
-    usersController.resetPasswordVerify
-);
-
-//* PATCH /users/resetPasswordNew
+//* PATCH /api/v1/users/reset-password-new
 router.patch(
-    "/resetPasswordNew",
+    "/reset-password-new",
     customValidators.resetPasswordNewValidator,
     usersController.resetPasswordNew
 );
 
-//* PATCH /users/updateUserStatus PRIVATE
+//* PATCH /api/v1/users/update-user-status PRIVATE
 router.patch(
-    "/updateUserStatus",
+    "/update-user-status",
     customValidators.updateUserStatusValidator,
     isAuth,
     usersController.updateUserStatus

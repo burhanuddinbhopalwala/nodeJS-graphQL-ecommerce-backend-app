@@ -3,7 +3,7 @@ const path = require("path");
 
 const { check } = require("express-validator/check");
 
-const db = require(path.join(__dirname, "..", "models", "index.js"));
+const db = require(path.join(__dirname, "..", "..", "models", "index.js"));
 
 const User = db.user;
 const Product = db.product;

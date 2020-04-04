@@ -6,7 +6,7 @@ const pdfKit = require("pdfkit");
 const stripe = require("stripe")(process.env.STRIPE_KEY);
 const { validationResult } = require("express-validator/check");
 
-const db = require(path.join(__dirname, "..", "models", "index.js"));
+const db = require(path.join(__dirname, "..", "..", "models", "index.js"));
 
 const { Op } = db.Sequelize;
 

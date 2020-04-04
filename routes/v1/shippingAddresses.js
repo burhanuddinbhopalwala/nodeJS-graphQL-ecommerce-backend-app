@@ -6,32 +6,38 @@ const express = require("express");
 const customValidators = require(path.join(
     __dirname,
     "..",
+    "..",
     "customMiddlewares",
+    "v1",
     "validators.js"
 ));
 const isAuth = require(path.join(
     __dirname,
     "..",
+    "..",
     "customMiddlewares",
+    "v1",
     "isAuth.js"
 ));
 const shippingAddressesController = require(path.join(
     __dirname,
     "..",
+    "..",
     "controllers",
+    "v1",
     "shippingAddressesController.js"
 ));
 
 const router = express.Router();
 
-//* GET /shippingAddresses
+//* GET /api/v1/shippingAddresses
 router.get(
     "/",
     isAuth,
     shippingAddressesController.getAllUserShippingAdressesDetails
 );
 
-//* POST /shippingAddresses PRIVATE
+//* POST /api/v1/shippingAddresses PRIVATE
 router.post(
     "/",
     customValidators.shippingAddressValidator,
@@ -39,7 +45,7 @@ router.post(
     shippingAddressesController.addShippingAddress
 );
 
-//* PUT /shippingAddresses/:shippingAddressId PRIVATE
+//* PUT /api/v1/shippingAddresses/:shippingAddressId PRIVATE
 router.put(
     "/:shippingAddressId",
     customValidators.shippingAddressValidator,
@@ -47,7 +53,7 @@ router.put(
     shippingAddressesController.updateShippingAddress
 );
 
-//* DELETE /shippingAddresses/:shippingAddressId PRIVATE
+//* DELETE /api/v1/shippingAddresses/:shippingAddressId PRIVATE
 router.delete(
     "/:shippingAddressId",
     isAuth,

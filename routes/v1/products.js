@@ -6,19 +6,25 @@ const express = require("express");
 const customValidators = require(path.join(
     __dirname,
     "..",
+    "..",
     "customMiddlewares",
+    "v1",
     "validators.js"
 ));
 const isAuth = require(path.join(
     __dirname,
     "..",
+    "..",
     "customMiddlewares",
+    "v1",
     "isAuth.js"
 ));
 const productsController = require(path.join(
     __dirname,
     "..",
+    "..",
     "controllers",
+    "v1",
     "productsController.js"
 ));
 
@@ -86,7 +92,7 @@ const router = express.Router();
  *       Else:
  *         $ref: "#/components/schemas/ResponseElse"
  */
-//* GET /products
+//* GET /api/v1/products
 router.get("/", productsController.getAllProducts);
 
 /**
@@ -145,7 +151,7 @@ router.get("/", productsController.getAllProducts);
  *       Else:
  *         $ref: "#/components/schemas/ResponseElse"
  */
-//* POST /products PRIVATE
+//* POST /api/v1/products PRIVATE
 router.post(
     "/",
     customValidators.productValidator,
@@ -213,7 +219,7 @@ router.post(
  *       Else:
  *         $ref: "#/components/schemas/ResponseElse"
  */
-//* PUT /products/:productId PRIVATE
+//* PUT /api/v1/products/:productId PRIVATE
 router.put(
     "/:productId",
     customValidators.productValidator,
@@ -270,7 +276,7 @@ router.put(
  *       Else:
  *         $ref: "#/components/schemas/ResponseElse"
  */
-//* DELETE /products/:productId PRIVATE
+//* DELETE /api/v1/products/:productId PRIVATE
 router.delete("/:productId", isAuth, productsController.deleteProduct);
 
 module.exports = router;
