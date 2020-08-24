@@ -1,0 +1,10 @@
+FROM node:10.9.0
+WORKDIR /usr/src/nodeJS-graphQL-ecommerce-backend-app/
+COPY ./package.json ./
+RUN npm install
+COPY ./ ./
+EXPOSE 3500
+CMD npm run start:dev
+
+#* docker build -f Dockerfile.dev -t <docker-id>/nodeJS-graphQL-ecommerce-backend-app-dev:latest .
+#* docker run -it -p 3500:3500 <docker-id>/nodeJS-graphQL-ecommerce-backend-app-dev

@@ -1,7 +1,7 @@
 {
-    "semi": true,
-    "printWidth": 80,
-    "singleQuote": false,
-    "tabWidth": 4,
-    "prettier.useTabs": true
+	"semi": true,
+	"printWidth": 80,
+	"singleQuote": false,
+	"tabWidth": 4,
+	"useTabs": true
 }

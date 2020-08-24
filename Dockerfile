@@ -1,10 +1,10 @@
-FROM node:10
-WORKDIR /home/nodejs/nodeJS-graphQL-ecommerce-backend-app
-COPY package.json /home/nodejs/nodeJS-graphQL-ecommerce-backend-app
+FROM node:10.9.0
+WORKDIR /usr/src/nodeJS-graphQL-ecommerce-backend-app/
+COPY ./package.json ./
 RUN npm install
-COPY . /home/nodejs/nodeJS-graphQL-ecommerce-backend-app
-CMD npm start 
+COPY ./ ./
 EXPOSE 3500
+CMD npm run start 
 
-#* docker build -t nodeJS-graphQL-ecommerce-backend-app . 
+#* docker build -t nodeJS-graphQL-ecommerce-backend-app:latest . 
 #* docker run -it -p 3500:3500 nodeJS-graphQL-ecommerce-backend-app
