@@ -91,6 +91,7 @@ app.set("trust proxy", 1);
 //* https://medium.com/@sevcsik/authentication-using-https-client-certificates-3c9d270e8326
 
 //* Logging
+//* Distributed tracing: https://blog.risingstack.com/node-js-logging-tutorial
 const accessLogStream = fs.createWriteStream(
 	path.join(__dirname, "logs", "access.log"),
 	{ flags: "a" }
