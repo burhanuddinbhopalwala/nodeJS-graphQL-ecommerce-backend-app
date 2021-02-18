@@ -1,4 +1,5 @@
 "use strict";
+
 //* https://sequelize.readthedocs.io/en/latest/docs/migrations/
 
 module.exports = {

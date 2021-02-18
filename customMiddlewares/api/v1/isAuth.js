@@ -1,5 +1,7 @@
 "use strict";
+
 const path = require("path");
+
 const jwt = require("jsonwebtoken");
 
 const db = require(path.join(

@@ -43,14 +43,14 @@ for my $process (@{$table->table}) {
         print " ----- PM2 Memory Usage ---- \n";
 
 
-        # 1GB Memory limit / pm2 process 
-        next if $process->rss < 1_073_741_824; 
+        # 1GB Memory limit / pm2 process
+        next if $process->rss < 1_073_741_824;
         print "------- \n ------";
 
         # Document the slaughter
         (my $cmd = $process->cmndline) =~ s/\s+\z//;
         print "\n", $datestring;
-        print " \n Killing process: pid=", $process->pid, " uid=", $process->uid, " rss=", $process->rss, " fname=", $process->fname, " cmndline=", 
+        print " \n Killing process: pid=", $process->pid, " uid=", $process->uid, " rss=", $process->rss, " fname=", $process->fname, " cmndline=",
         $cmd, $datestring, "\n";
         print  "\n Memory Usage", $process->rss;
         print "------- \n ------";
@@ -94,7 +94,7 @@ for my $process (@{$table->table}) {
         #next if $process->pid != 8156 ;
         (my $cmd = $process->cmndline) =~ s/\s+\z//;
 
-        while (my($key, $value) = each (%apps)) { 
+        while (my($key, $value) = each (%apps)) {
             $value = $apps{$key};
             if ($process->cmndline =~ /$key/) {
                 print $process->pid;

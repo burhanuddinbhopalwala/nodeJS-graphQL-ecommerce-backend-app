@@ -1,4 +1,5 @@
 "use strict";
+
 // const { validate } = require("express-validator/check");
 
 module.exports = function(sequelize, DataTypes) {

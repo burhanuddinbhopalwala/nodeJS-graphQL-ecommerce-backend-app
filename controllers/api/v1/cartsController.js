@@ -1,4 +1,5 @@
 "use strict";
+
 const path = require("path");
 
 const { validationResult } = require("express-validator/check");

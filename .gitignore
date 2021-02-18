@@ -9,8 +9,8 @@ nodePM2Deployers/*
 
 *.swo
 *.swp
-*.out 
-*.log 
+*.out
+*.log
 .nvmrc
 *.lock
 *.yaml

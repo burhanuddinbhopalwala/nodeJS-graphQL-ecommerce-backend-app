@@ -1,7 +1,9 @@
 "use strict";
+
 const path = require("path");
 
 const validator = require("validator");
+
 const db = require(path.join(
 	__dirname,
 	"..",

@@ -1,4 +1,5 @@
 "use strict";
+
 const path = require("path");
 
 const demoJobs = require(path.join(__dirname, "demoJobs.js"));
