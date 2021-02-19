@@ -7,9 +7,10 @@
 		"node": "10.9.0"
 	},
 	"scripts": {
-		"start": "NODE_ENV=production node index.js",
-		"start:dev": "NODE_ENV=development nodemon index.js",
-		"test": "NODE_ENV=test node ."
+		"start": "node -r dotenv/config index.js dotenv_config_path=./.env",
+		"start:dev": "node -r dotenv/config index.js dotenv_config_path=./.env.dev",
+		"start:test": "node -r dotenv/config . dotenv_config_path=./.env.test",
+		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"repository": {
 		"type": "git",

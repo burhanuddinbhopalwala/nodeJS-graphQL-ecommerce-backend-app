@@ -1,11 +1,9 @@
 "use strict";
 
-//* https://bundlephobia.com
+console.log(`app starting in ${process.env.NODE_ENV} ENV`);
 
 const fs = require("fs");
 const path = require("path");
-
-require(path.join(__dirname, "config", "env.js"));
 
 const express = require("express");
 const morgan = require("morgan");
@@ -18,6 +16,7 @@ const bodyParser = require("body-parser");
 const expressGraphQL = require("express-graphql");
 const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUiExpress = require("swagger-ui-express");
+//* https://bundlephobia.com
 
 const sequelize = require(path.join(__dirname, "models")).sequelize;
 const apiV1Auth = require(path.join(

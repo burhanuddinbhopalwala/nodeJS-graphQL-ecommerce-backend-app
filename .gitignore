@@ -7,6 +7,7 @@ data/invoices/*.pdf
 nodePM2Deployers/*
 !nodePM2Deployers/.gitkeep
 
+.env*
 *.swo
 *.swp
 *.out
