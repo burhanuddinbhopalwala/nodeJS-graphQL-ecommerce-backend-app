@@ -1,6 +1,9 @@
 "use strict";
 
-console.log(`app starting in ${process.env.NODE_ENV} ENV`);
+//* Setting up default NODE_ENV
+process.env.ENV = process.env.ENV || "dev";
+process.env.NODE_ENV = process.env.NODE_ENV || "development";
+console.log(`app starting in ${process.env.NODE_ENV} mode`);
 
 const fs = require("fs");
 const path = require("path");
@@ -18,83 +21,89 @@ const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUiExpress = require("swagger-ui-express");
 //* https://bundlephobia.com
 
-const sequelize = require(path.join(__dirname, "models")).sequelize;
+const { SOURCE } = require(path.join(__dirname, "constants.js"));
+const sequelize = require(path.join(SOURCE, "models")).sequelize;
 const apiV1Auth = require(path.join(
-	__dirname,
+	SOURCE,
 	"customMiddlewares",
 	"api",
 	"v1",
 	"isAuth.js"
 ));
 const apiV1UsersRoutes = require(path.join(
-	__dirname,
+	SOURCE,
 	"routes",
 	"api",
 	"v1",
 	"users.js"
 ));
 const apiV1ProductsRoutes = require(path.join(
-	__dirname,
+	SOURCE,
 	"routes",
 	"api",
 	"v1",
 	"products.js"
 ));
 const apiV1CartsRoutes = require(path.join(
-	__dirname,
+	SOURCE,
 	"routes",
 	"api",
 	"v1",
 	"carts.js"
 ));
 const apiV1ShippingAddressesRoutes = require(path.join(
-	__dirname,
+	SOURCE,
 	"routes",
 	"api",
 	"v1",
 	"shippingAddresses.js"
 ));
 const apiV1OrdersRoutes = require(path.join(
-	__dirname,
+	SOURCE,
 	"routes",
 	"api",
 	"v1",
 	"orders.js"
 ));
 const apiV1GraphQLSchema = require(path.join(
-	__dirname,
+	SOURCE,
 	"graphQL",
 	"api",
 	"v1",
 	"schema.js"
 ));
 const apiV1GraphQLResolvers = require(path.join(
-	__dirname,
+	SOURCE,
 	"graphQL",
 	"api",
 	"v1",
 	"resolvers.js"
 ));
 const errorHandlingRoutes = require(path.join(
-	__dirname,
+	SOURCE,
 	"routes",
 	"public",
 	"errors.js"
 ));
 
-const masterJobs = require(path.join(__dirname, "jobs", "masterJobs.js"));
+const masterJobs = require(path.join(SOURCE, "jobs", "masterJobs.js"));
 
 const app = express();
 const PORT = process.env.PORT || 3500;
 
 app.set("trust proxy", 1);
 //* https://expressjs.com/en/guide/behind-proxies.html
+//* If behind a reverse proxy server such as nginx, the trust proxy option must be set.
 //* https://medium.com/@sevcsik/authentication-using-https-client-certificates-3c9d270e8326
+//* https://nordicapis.com/the-difference-between-http-auth-api-keys-and-oauth/
+//* https://salesforce.stackexchange.com/questions/93887/mutual-authentication-two-way-ssl-oauth
+//* https://nevatech.com/blog/post/What-you-need-to-know-about-securing-APIs-with-mutual-certificates
+//* https://stackoverflow.com/questions/29636715/oauth-2-0-two-legged-authentication-vs-ssl-tls
 
 //* Logging
 //* Distributed tracing: https://blog.risingstack.com/node-js-logging-tutorial
 const accessLogStream = fs.createWriteStream(
-	path.join(__dirname, "logs", "access.log"),
+	path.join(SOURCE, "logs", "access.log"),
 	{ flags: "a" }
 );
 
@@ -144,6 +153,7 @@ app.use((req, res, next) => {
 
 //* For ALB Health Check!
 app.get("/api/health", (req, res, next) => {
+	const status = 200;
 	const uptimeSeconds = process.uptime();
 	const uptime =
 		Math.floor(uptimeSeconds / (3600 * 24)) +
@@ -154,10 +164,13 @@ app.get("/api/health", (req, res, next) => {
 		" minutes " +
 		Math.floor(uptimeSeconds % 60) +
 		" seconds";
-	res.status(200).json({
+	res.status(status).json({
+		status,
 		message: "Up...",
-		uptime: uptime,
-		timestamp: new Date().toString()
+		data: {
+			uptime: uptime,
+			timestamp: new Date().toString()
+		}
 	});
 });
 
@@ -237,7 +250,7 @@ app.get("/swagger.json", function(req, res) {
 	res.send(swaggerSpec);
 });
 app.use(
-	"/api/api-docs",
+	"/api/v1/api-docs",
 	swaggerUiExpress.serve,
 	swaggerUiExpress.setup(swaggerSpec)
 );
@@ -258,7 +271,7 @@ app.use(errorHandlingRoutes);
 sequelize
 	.sync({ force: false })
 	.then(data => {
-		console.log("mySQL Sync Successful && Connected!!!");
+		console.log("MySQL sync successful!");
 		app.listen(PORT, () =>
 			console.log(`Listening and serving HTTP on :${PORT}`)
 		);

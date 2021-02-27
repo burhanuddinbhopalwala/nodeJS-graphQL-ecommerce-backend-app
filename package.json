@@ -1,15 +1,15 @@
 {
 	"name": "nodeJS-graphQL-ecommerce-backend-app",
-	"version": "1.0.0",
+	"version": "2.0.0",
 	"description": "nodeJS-graphQL-ecommerce-backend-app",
 	"main": "index.js",
 	"engines": {
 		"node": "10.9.0"
 	},
 	"scripts": {
-		"start": "node -r dotenv/config index.js dotenv_config_path=./.env",
-		"start:dev": "node -r dotenv/config index.js dotenv_config_path=./.env.dev",
-		"start:test": "node -r dotenv/config . dotenv_config_path=./.env.test",
+		"start": "node --require dotenv/config index.js dotenv_config_path=./.env",
+		"start:dev": "node --require dotenv/config index.js dotenv_config_path=./.env.dev",
+		"start:test": "node --require dotenv_config_path=./.env.test .",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"repository": {
@@ -35,7 +35,9 @@
 		"express-validator": "^5.3.1",
 		"graphql": "^14.3.1",
 		"helmet": "^3.18.0",
+		"https": "^1.0.0",
 		"jsonwebtoken": "^8.5.1",
+		"loadtest": "^5.1.2",
 		"morgan": "^1.9.1",
 		"mysql2": "^1.6.5",
 		"node-schedule": "^2.0.0",
