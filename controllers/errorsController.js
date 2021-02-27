@@ -1,10 +1,14 @@
 "use strict";
 class ErrorsController {
 	static throw404(req, res, next) {
-		res.status(404).json({
-			name: "Route not found!",
-			message: "Route not found!",
-			data: {}
+		const status = 404;
+		const error = new Error("Route not found!");
+		res.status(status).json({
+			status,
+			name: error.name, //* Error
+			code: error.message,
+			message: error.message,
+			data: error.data
 		});
 	}
 
@@ -12,7 +16,9 @@ class ErrorsController {
 		console.log(error);
 		const status = error.httpStatusCode || 500;
 		res.status(status).json({
-			name: error.name,
+			status,
+			name: error.name, //* Error
+			code: error.message,
 			message: error.message,
 			data: error.data
 		});

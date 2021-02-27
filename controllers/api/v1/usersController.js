@@ -4,12 +4,20 @@ const path = require("path");
 const crypto = require("crypto");
 
 const io = require("@pm2/io");
-const { validationResult } = require("express-validator/check");
-const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const bcryptjs = require("bcryptjs");
+const { validationResult } = require("express-validator/check");
 const nodemailer = require("nodemailer");
 const nodemailerSendgridTransporter = require("nodemailer-sendgrid-transport");
 
+const { SOURCE } = require(path.join(
+	__dirname,
+	"..",
+	"..",
+	"..",
+	"constants.js"
+));
+const jwtUtil = require(path.join(SOURCE, "utils", "jwt.js"));
 const db = require(path.join(
 	__dirname,
 	"..",
@@ -154,9 +162,7 @@ class UsersController {
 			}
 			const jwtToken = jwt.sign(
 				{ userId: +user.id },
-				new Buffer(process.env.JWT_PRIVATE_KEY, "base64").toString(
-					"utf-8"
-				),
+				jwtUtil.getPrivateKey(),
 				{ expiresIn: "72h" }
 			);
 			activeLoggedInUserCounter.inc();

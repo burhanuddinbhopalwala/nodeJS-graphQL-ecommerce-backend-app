@@ -4,14 +4,15 @@ const path = require("path");
 
 const jwt = require("jsonwebtoken");
 
-const db = require(path.join(
+const { SOURCE } = require(path.join(
 	__dirname,
 	"..",
 	"..",
 	"..",
-	"models",
-	"index.js"
+	"constants.js"
 ));
+const jwtUtil = require(path.join(SOURCE, "utils", "jwt.js"));
+const db = require(path.join(SOURCE, "models", "index.js"));
 
 const User = db.user;
 
@@ -26,14 +27,9 @@ module.exports = async function isAuth(req, res, next) {
 		let decodedToken;
 		try {
 			const jwtToken = authHeader.split(" ")[1];
-			decodedToken = jwt.verify(
-				jwtToken,
-				new Buffer(process.env.JWT_PRIVATE_KEY, "base64").toString(
-					"utf-8"
-				)
-			);
+			decodedToken = jwt.verify(jwtToken, jwtUtil.getPrivateKey());
 		} catch (error) {
-			error.message = "Unauthenticated!";
+			error.message = "Unauthorized!";
 			error.httpStatusCode = 401;
 			throw error;
 		}
