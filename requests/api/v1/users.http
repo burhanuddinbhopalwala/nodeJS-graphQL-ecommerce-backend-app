@@ -1,0 +1,76 @@
+@baseUrl = http://localhost:3500/api/v1
+
+@jwtToken = {{login.response.body.data.jwtToken}}
+
+# @name getUserDetails
+GET {{baseUrl}}/users/get-user-details HTTP/1.1
+Host: localhost:3500
+Authorization: Bearer {{jwtToken}}
+
+###
+
+# @name getProducts
+GET {{baseUrl}}/users/products?page=1 HTTP/1.1
+Host: localhost:3500
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{jwtToken}}
+Content-Length: 12
+
+status=false
+
+###
+
+# @name signup
+POST {{baseUrl}}/users/signup HTTP/1.1
+Host: localhost:3500
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 100
+
+email=tester@gmail.com&isAdmin=true&username=tester@gmail.com&password=tester&passwordConfirm=tester
+
+###
+
+# @name login
+POST {{baseUrl}}/users/login HTTP/1.1
+Host: localhost:3500
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 38
+
+email=tester@gmail.com&password=tester
+
+###
+
+# @name resetPasswordVerify
+GET {{baseUrl}}/users/reset-password-verify/{{resetToken}} HTTP/1.1
+Host: localhost:3500
+
+###
+
+# @name resetPassword
+PATCH {{baseUrl}}/users/reset-password HTTP/1.1
+Host: localhost:3500
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 22
+
+email=tester@gmail.com
+
+###
+
+# @name resetPasswordNew
+PATCH {{baseUrl}}/users/reset-password-new HTTP/1.1
+Host: localhost:3500
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 88
+
+userId={{userId}}&resetToken={{resetToken}}&newPassword=tester&newPasswordConfirm=tester
+
+###
+
+# @name updateUserStatus
+PATCH {{baseUrl}}/users/update-user-status HTTP/1.1
+Host: localhost:3500
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTU4Njg0NTQ5OCwiZXhwIjoxNTg3MTA0Njk4fQ.6zfQrLXfV8wOzlqs-reimS3TxyAgu1T5wva0oVAtHEY
+Content-Length: 11
+
+status=true
