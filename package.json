@@ -8,8 +8,8 @@
 	},
 	"scripts": {
 		"start": "node --require dotenv/config index.js dotenv_config_path=./.env",
-		"start:dev": "node --require dotenv/config index.js dotenv_config_path=./.env.dev",
-		"start:test": "node --require dotenv_config_path=./.env.test .",
+		"start:dev": "nodemon --require dotenv/config index.js dotenv_config_path=./.env.dev",
+		"start:test": "nodemon --require dotenv_config_path=./.env.test .",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"repository": {
