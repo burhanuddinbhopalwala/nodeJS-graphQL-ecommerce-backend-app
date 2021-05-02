@@ -1,10 +1,11 @@
-.vscode/
 dump/*.sql
 logs/*.log
 config/*.js
+**/.vscode/
+**/.DS_Store
 node_modules/
-data/invoices/*.pdf
 nodePM2Deployers/*
+data/invoices/*.pdf
 !nodePM2Deployers/.gitkeep
 
 .env*
@@ -16,7 +17,6 @@ nodePM2Deployers/*
 *.lock
 *.yaml
 dump.rdb
-.DS_Store
 newrelic.js
 npm-debug.log
 package-lock.json
