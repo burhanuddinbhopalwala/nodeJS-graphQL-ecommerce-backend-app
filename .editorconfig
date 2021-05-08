@@ -1,3 +1,4 @@
+
 # top-most EditorConfig file
 root = true
 
@@ -12,9 +13,14 @@ insert_final_newline = true
 trim_trailing_whitespace = true
 
 # Cosmic config files
-[*.{json,jsonc,json5,yml,yaml,xml}]
+[*.{json,jsonc,json5,yml,yaml,toml,xml}]
 indent_size = 2
+indent_style = space
 
-# Markdown Files
+# Makefile
+[Makefile]
+indent_style = tab
+
+# Markdown files
 [*.md]
 trim_trailing_whitespace = false
