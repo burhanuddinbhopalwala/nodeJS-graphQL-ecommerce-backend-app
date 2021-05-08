@@ -6,34 +6,34 @@ This project consists of entire backend set of RESTful API's, that are required 
 
 ## Implementation includes:
 
--   graphQL implementation for all product APIs
+- graphQL implementation for all product APIs
 
--   Service integrations of: redis (for api responses, with write-through cache invalidation strategy), amazonS3 (for product images), messagingQueues (producer-consumer, for order processing to ERP)
+- Service integrations of: redis (for api responses, with write-through cache invalidation strategy), amazonS3 (for product images), messagingQueues (producer-consumer, for order processing to ERP)
 
--   Authentication (JWT/ Bearer scheme) + Advanced Authentication (reset password etc.)
+- Authentication (JWT/ Bearer scheme) + Advanced Authentication (reset password etc.)
 
--   Order pipelines core functionalities
+- Order pipelines core functionalities
 
--   Payment/ Payment line handling (Strip, with your private key)
+- Payment/ Payment line handling (Strip, with your private key)
 
--   Email integration using Sendgrid
+- Email integration using Sendgrid
 
--   Pagination for all the major GET API's
+- Pagination for all the major GET API's
 
--   Error handling using express at it's the best way
+- Error handling using express at it's the best way
 
--   Advanced server-side validators handling for all the Non-GET API's
+- Advanced server-side validators handling for all the Non-GET API's
 
--   Optimized code + Best practices (every line) + Scalable architecture/ structure
+- Optimized code + Best practices (every line) + Scalable architecture/ structure
 
--   Security by using nodeJS HELMET security headers
+- Security by using nodeJS HELMET security headers
 
--   Logging using MORGAN, for all the requests
+- Logging using MORGAN, for all the requests
 
--   Unit test cases for functional testing
+- Unit test cases for functional testing
 
--   CI using Travis CI
-    ![ScreenShot](/data/travis/build-2019-06-01.png)
+- CI using Travis CI
+  ![ScreenShot](/data/travis/build-2019-06-01.png)
 
 ## Getting started
 
@@ -57,13 +57,13 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 ## Authors
 
--   **Burhanuddin Bhopalwala** - _Initial work_ - [GitHub](https://github.com/burhanuddinbhopalwala)
+- **Burhanuddin Bhopalwala** - _Initial work_ - [GitHub](https://github.com/burhanuddinbhopalwala)
 
 ## Acknowledgments
 
--   https://bit.ly/2FeFYgT
--   https://bit.ly/2WKXfZS
--   https://flaviocopes.com/express-validate-input/
+- https://bit.ly/2FeFYgT
+- https://bit.ly/2WKXfZS
+- https://flaviocopes.com/express-validate-input/
 
 ## License
 

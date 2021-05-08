@@ -5,34 +5,34 @@ const path = require("path");
 const express = require("express");
 
 const customValidators = require(path.join(
-	__dirname,
-	"..",
-	"..",
-	"..",
-	"customMiddlewares",
-	"api",
-	"v1",
-	"validators.js"
+    __dirname,
+    "..",
+    "..",
+    "..",
+    "customMiddlewares",
+    "api",
+    "v1",
+    "validators.js"
 ));
 const isAuth = require(path.join(
-	__dirname,
-	"..",
-	"..",
-	"..",
-	"customMiddlewares",
-	"api",
-	"v1",
-	"isAuth.js"
+    __dirname,
+    "..",
+    "..",
+    "..",
+    "customMiddlewares",
+    "api",
+    "v1",
+    "isAuth.js"
 ));
 const ordersController = require(path.join(
-	__dirname,
-	"..",
-	"..",
-	"..",
-	"controllers",
-	"api",
-	"v1",
-	"ordersController.js"
+    __dirname,
+    "..",
+    "..",
+    "..",
+    "controllers",
+    "api",
+    "v1",
+    "ordersController.js"
 ));
 
 const router = express.Router();
@@ -54,10 +54,10 @@ router.post("/checkout", isAuth, ordersController.postCheckoutOrder);
 
 //* PATCH /orders/:orderId PRIVATE
 router.patch(
-	"/:orderId",
-	customValidators.updateOrderStatusValidator,
-	isAuth,
-	ordersController.updateOrderStatus
+    "/:orderId",
+    customValidators.updateOrderStatusValidator,
+    isAuth,
+    ordersController.updateOrderStatus
 );
 
 module.exports = router;

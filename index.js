@@ -24,66 +24,66 @@ const swaggerUiExpress = require("swagger-ui-express");
 const { SOURCE } = require(path.join(__dirname, "constants.js"));
 const sequelize = require(path.join(SOURCE, "models")).sequelize;
 const apiV1Auth = require(path.join(
-	SOURCE,
-	"customMiddlewares",
-	"api",
-	"v1",
-	"isAuth.js"
+    SOURCE,
+    "customMiddlewares",
+    "api",
+    "v1",
+    "isAuth.js"
 ));
 const apiV1UsersRoutes = require(path.join(
-	SOURCE,
-	"routes",
-	"api",
-	"v1",
-	"users.js"
+    SOURCE,
+    "routes",
+    "api",
+    "v1",
+    "users.js"
 ));
 const apiV1ProductsRoutes = require(path.join(
-	SOURCE,
-	"routes",
-	"api",
-	"v1",
-	"products.js"
+    SOURCE,
+    "routes",
+    "api",
+    "v1",
+    "products.js"
 ));
 const apiV1CartsRoutes = require(path.join(
-	SOURCE,
-	"routes",
-	"api",
-	"v1",
-	"carts.js"
+    SOURCE,
+    "routes",
+    "api",
+    "v1",
+    "carts.js"
 ));
 const apiV1ShippingAddressesRoutes = require(path.join(
-	SOURCE,
-	"routes",
-	"api",
-	"v1",
-	"shippingAddresses.js"
+    SOURCE,
+    "routes",
+    "api",
+    "v1",
+    "shippingAddresses.js"
 ));
 const apiV1OrdersRoutes = require(path.join(
-	SOURCE,
-	"routes",
-	"api",
-	"v1",
-	"orders.js"
+    SOURCE,
+    "routes",
+    "api",
+    "v1",
+    "orders.js"
 ));
 const apiV1GraphQLSchema = require(path.join(
-	SOURCE,
-	"graphQL",
-	"api",
-	"v1",
-	"schema.js"
+    SOURCE,
+    "graphQL",
+    "api",
+    "v1",
+    "schema.js"
 ));
 const apiV1GraphQLResolvers = require(path.join(
-	SOURCE,
-	"graphQL",
-	"api",
-	"v1",
-	"resolvers.js"
+    SOURCE,
+    "graphQL",
+    "api",
+    "v1",
+    "resolvers.js"
 ));
 const errorHandlingRoutes = require(path.join(
-	SOURCE,
-	"routes",
-	"public",
-	"errors.js"
+    SOURCE,
+    "routes",
+    "public",
+    "errors.js"
 ));
 
 const masterJobs = require(path.join(SOURCE, "jobs", "masterJobs.js"));
@@ -103,20 +103,20 @@ app.set("trust proxy", 1);
 //* Logging
 //* Distributed tracing: https://blog.risingstack.com/node-js-logging-tutorial
 const accessLogStream = fs.createWriteStream(
-	path.join(SOURCE, "logs", "access.log"),
-	{ flags: "a" }
+    path.join(SOURCE, "logs", "access.log"),
+    { flags: "a" }
 );
 
 //* API rate limiter
 const apiRateLimiter = rateLimiter({
-	max: 1000, //* limit each IP to 100 requests per windowMs
-	windowMs: 1 * 1 * 1000, //* 1 sec, min * sec * 1000
-	message: "Too many requests" //* message to send
+    max: 1000, //* limit each IP to 100 requests per windowMs
+    windowMs: 1 * 1 * 1000, //* 1 sec, min * sec * 1000
+    message: "Too many requests" //* message to send
 });
 
 //! CSRF Attacks
 const csrfProtection = csurf({
-	cookie: true
+    cookie: true
 });
 
 //* Security Middlewares
@@ -139,39 +139,39 @@ if (process.env.NODE_ENV === "production") app.use(csrfProtection); //* _csrf, r
 //* err.code === "EBADCSRFTOKEN"
 //! CSRF Attacks
 app.use((req, res, next) => {
-	res.setHeader("Access-Control-Allow-Origin", "*");
-	res.setHeader(
-		"Access-Control-Allow-Methods",
-		"OPTIONS, GET, POST, PUT, PATCH, DELETE"
-	);
-	res.setHeader(
-		"Access-Control-Allow-Headers",
-		"Content-Type, Authorization"
-	);
-	next();
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader(
+        "Access-Control-Allow-Methods",
+        "OPTIONS, GET, POST, PUT, PATCH, DELETE"
+    );
+    res.setHeader(
+        "Access-Control-Allow-Headers",
+        "Content-Type, Authorization"
+    );
+    next();
 });
 
 //* For ALB Health Check!
 app.get("/api/health", (req, res, next) => {
-	const status = 200;
-	const uptimeSeconds = process.uptime();
-	const uptime =
-		Math.floor(uptimeSeconds / (3600 * 24)) +
-		" days " +
-		Math.floor((uptimeSeconds % (3600 * 24)) / 3600) +
-		" hours " +
-		Math.floor((uptimeSeconds % 3600) / 60) +
-		" minutes " +
-		Math.floor(uptimeSeconds % 60) +
-		" seconds";
-	res.status(status).json({
-		status,
-		message: "Up...",
-		data: {
-			uptime: uptime,
-			timestamp: new Date().toString()
-		}
-	});
+    const status = 200;
+    const uptimeSeconds = process.uptime();
+    const uptime =
+        Math.floor(uptimeSeconds / (3600 * 24)) +
+        " days " +
+        Math.floor((uptimeSeconds % (3600 * 24)) / 3600) +
+        " hours " +
+        Math.floor((uptimeSeconds % 3600) / 60) +
+        " minutes " +
+        Math.floor(uptimeSeconds % 60) +
+        " seconds";
+    res.status(status).json({
+        status,
+        message: "Up...",
+        data: {
+            uptime: uptime,
+            timestamp: new Date().toString()
+        }
+    });
 });
 
 //* Buisness routes
@@ -184,75 +184,75 @@ app.use("/api/v1/orders", apiV1OrdersRoutes);
 //* Only for graphQL
 //! Don't use custom productValidator here, as graphQL query will not resolve, leads to errors only
 app.use(
-	"/api/v1/graphql",
-	apiV1Auth,
-	expressGraphQL({
-		schema: apiV1GraphQLSchema,
-		rootValue: apiV1GraphQLResolvers,
-		graphiql: true,
-		formatError(error) {
-			if (!error.originalError) return error;
-			const code = error.originalError.httpStatusCode;
-			const name = error.originalError.name;
-			const message = error.originalError.message;
-			const data = error.originalError.data;
-			return { code, name, message, data };
-		}
-	})
+    "/api/v1/graphql",
+    apiV1Auth,
+    expressGraphQL({
+        schema: apiV1GraphQLSchema,
+        rootValue: apiV1GraphQLResolvers,
+        graphiql: true,
+        formatError(error) {
+            if (!error.originalError) return error;
+            const code = error.originalError.httpStatusCode;
+            const name = error.originalError.name;
+            const message = error.originalError.message;
+            const data = error.originalError.data;
+            return { code, name, message, data };
+        }
+    })
 );
 
 //* Swagger API Documentation
 const swaggerDefinition = {
-	openapi: "3.0.0",
-	info: {
-		title: "nodeJS-graphQL-ecommerce-backend-app",
-		version: "1.0.0",
-		description: "nodeJS-graphQL-ecommerce-backend-app",
-		termsOfService: "nodeJS-graphQL-ecommerce-backend-app - TOS",
-		host: "http://localhost:3500",
-		basePath: "/api",
-		schemes: ["http", "https"],
-		license: {
-			name: "MIT",
-			url: "https://choosealicense.com/licenses/mit/"
-		},
-		contact: {
-			name: "Burhanuddin Bhopalwala",
-			url: "https://github.com/burhanuddinbhopalwala",
-			email: "burhanuddinbhopalwala.connect@gmail.com"
-		}
-	},
-	servers: [
-		{
-			url: "http://localhost:3500",
-			description: "dev"
-		}
-	],
-	components: {
-		schemas: {},
-		securitySchemes: {
-			authHeader: {
-				type: "http", //* http, apiKey, oauth2 or openIdConnect
-				scheme: "bearer",
-				bearerFormat: "JWT"
-			}
-		}
-	}
+    openapi: "3.0.0",
+    info: {
+        title: "nodeJS-graphQL-ecommerce-backend-app",
+        version: "1.0.0",
+        description: "nodeJS-graphQL-ecommerce-backend-app",
+        termsOfService: "nodeJS-graphQL-ecommerce-backend-app - TOS",
+        host: "http://localhost:3500",
+        basePath: "/api",
+        schemes: ["http", "https"],
+        license: {
+            name: "MIT",
+            url: "https://choosealicense.com/licenses/mit/"
+        },
+        contact: {
+            name: "Burhanuddin Bhopalwala",
+            url: "https://github.com/burhanuddinbhopalwala",
+            email: "burhanuddinbhopalwala.connect@gmail.com"
+        }
+    },
+    servers: [
+        {
+            url: "http://localhost:3500",
+            description: "dev"
+        }
+    ],
+    components: {
+        schemas: {},
+        securitySchemes: {
+            authHeader: {
+                type: "http", //* http, apiKey, oauth2 or openIdConnect
+                scheme: "bearer",
+                bearerFormat: "JWT"
+            }
+        }
+    }
 };
 const options = {
-	swaggerDefinition,
-	apis: ["./models/*.js", "./routes/*.js", "./swaggerComponents/*.js"]
+    swaggerDefinition,
+    apis: ["./models/*.js", "./routes/*.js", "./swaggerComponents/*.js"]
 };
 const swaggerSpec = swaggerJsDoc(options);
 
 app.get("/swagger.json", function(req, res) {
-	res.setHeader("Content-Type", "application/json");
-	res.send(swaggerSpec);
+    res.setHeader("Content-Type", "application/json");
+    res.send(swaggerSpec);
 });
 app.use(
-	"/api/v1/api-docs",
-	swaggerUiExpress.serve,
-	swaggerUiExpress.setup(swaggerSpec)
+    "/api/v1/api-docs",
+    swaggerUiExpress.serve,
+    swaggerUiExpress.setup(swaggerSpec)
 );
 /*
  * Swagger ref links:
@@ -269,13 +269,13 @@ app.use(errorHandlingRoutes);
 
 //* Sequelize sync
 sequelize
-	.sync({ force: false })
-	.then(data => {
-		console.log("MySQL sync successful!");
-		app.listen(PORT, () =>
-			console.log(`Listening and serving HTTP on :${PORT}`)
-		);
-	})
-	.catch(err => {
-		console.log(err);
-	});
+    .sync({ force: false })
+    .then(data => {
+        console.log("MySQL sync successful!");
+        app.listen(PORT, () =>
+            console.log(`Listening and serving HTTP on :${PORT}`)
+        );
+    })
+    .catch(err => {
+        console.log(err);
+    });

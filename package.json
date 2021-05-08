@@ -1,68 +1,68 @@
 {
-	"name": "nodeJS-graphQL-ecommerce-backend-app",
-	"version": "2.0.0",
-	"description": "nodeJS-graphQL-ecommerce-backend-app",
-	"main": "index.js",
-	"engines": {
-		"node": "10.9.0"
-	},
-	"scripts": {
-		"start": "node --require dotenv/config index.js dotenv_config_path=./.env",
-		"start:dev": "nodemon --require dotenv/config index.js dotenv_config_path=./.env.dev",
-		"start:test": "nodemon --require dotenv_config_path=./.env.test .",
-		"test": "echo \"Error: no test specified\" && exit 1"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/burhanuddinbhopalwala/nodeJS-graphQL-ecommerce-backend-app"
-	},
-	"author": "Burhanuddin Bhopalwala",
-	"license": "ISC",
-	"bugs": {
-		"url": "https://github.com/burhanuddinbhopalwala/nodeJS-graphQL-ecommerce-backend-app/issues"
-	},
-	"homepage": "https://github.com/burhanuddinbhopalwala/nodeJS-graphQL-ecommerce-backend-app#readme",
-	"dependencies": {
-		"@pm2/io": "^4.3.3",
-		"bcryptjs": "^2.4.3",
-		"body-parser": "^1.19.0",
-		"cookie-parser": "^1.4.5",
-		"csurf": "^1.11.0",
-		"dotenv": "^8.2.0",
-		"express-graphql": "^0.8.0",
-		"express-rate-limit": "^5.0.0",
-		"express-validator": "^5.3.1",
-		"graphql": "^14.3.1",
-		"helmet": "^3.18.0",
-		"https": "^1.0.0",
-		"jsonwebtoken": "^8.5.1",
-		"loadtest": "^5.1.2",
-		"morgan": "^1.9.1",
-		"mysql2": "^1.6.5",
-		"node-schedule": "^2.0.0",
-		"nodemailer": "^6.2.1",
-		"nodemailer-sendgrid-transport": "^0.2.0",
-		"pdfkit": "^0.10.0",
-		"sequelize": "^5.8.7",
-		"sequelize-cli": "^5.5.0",
-		"stripe": "^7.1.0",
-		"swagger-jsdoc": "^3.5.0",
-		"swagger-ui-express": "^4.1.3",
-		"validator": "^11.0.0",
-		"xss-clean": "^0.1.1"
-	},
-	"devDependencies": {
-		"eslint": "^6.8.0",
-		"eslint-config-prettier": "6.7.0",
-		"eslint-plugin-prettier": "3.1.1",
-		"husky": "3.1.0",
-		"nodemon": "^2.0.2",
-		"prettier": "1.19.1",
-		"pretty-quick": "2.0.1"
-	},
-	"husky": {
-		"hooks": {
-			"pre-commit": "pretty-quick --staged"
-		}
-	}
+  "name": "nodeJS-graphQL-ecommerce-backend-app",
+  "version": "2.0.0",
+  "description": "nodeJS-graphQL-ecommerce-backend-app",
+  "main": "index.js",
+  "engines": {
+    "node": "10.9.0"
+  },
+  "scripts": {
+    "start": "node --require dotenv/config index.js dotenv_config_path=./.env",
+    "start:dev": "nodemon --require dotenv/config index.js dotenv_config_path=./.env.dev",
+    "start:test": "nodemon --require dotenv_config_path=./.env.test .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/burhanuddinbhopalwala/nodeJS-graphQL-ecommerce-backend-app"
+  },
+  "author": "Burhanuddin Bhopalwala",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/burhanuddinbhopalwala/nodeJS-graphQL-ecommerce-backend-app/issues"
+  },
+  "homepage": "https://github.com/burhanuddinbhopalwala/nodeJS-graphQL-ecommerce-backend-app#readme",
+  "dependencies": {
+    "@pm2/io": "^4.3.3",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
+    "csurf": "^1.11.0",
+    "dotenv": "^8.2.0",
+    "express-graphql": "^0.8.0",
+    "express-rate-limit": "^5.0.0",
+    "express-validator": "^5.3.1",
+    "graphql": "^14.3.1",
+    "helmet": "^3.18.0",
+    "https": "^1.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "loadtest": "^5.1.2",
+    "morgan": "^1.9.1",
+    "mysql2": "^1.6.5",
+    "node-schedule": "^2.0.0",
+    "nodemailer": "^6.2.1",
+    "nodemailer-sendgrid-transport": "^0.2.0",
+    "pdfkit": "^0.10.0",
+    "sequelize": "^5.8.7",
+    "sequelize-cli": "^5.5.0",
+    "stripe": "^7.1.0",
+    "swagger-jsdoc": "^3.5.0",
+    "swagger-ui-express": "^4.1.3",
+    "validator": "^11.0.0",
+    "xss-clean": "^0.1.1"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "6.7.0",
+    "eslint-plugin-prettier": "3.1.1",
+    "husky": "3.1.0",
+    "nodemon": "^2.0.2",
+    "prettier": "1.19.1",
+    "pretty-quick": "2.0.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  }
 }

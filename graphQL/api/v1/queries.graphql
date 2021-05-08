@@ -1,76 +1,76 @@
 query {
-	getAllProducts(page: 1) {
-		message
-		data {
-			products {
-				id
-				sku
-				title
-				price
-			}
-			currentPage
-			hasNextPage
-			hasPreviousPage
-			nextPage
-			previousPage
-			lastPage
-		}
-	}
+  getAllProducts(page: 1) {
+    message
+    data {
+      products {
+        id
+        sku
+        title
+        price
+      }
+      currentPage
+      hasNextPage
+      hasPreviousPage
+      nextPage
+      previousPage
+      lastPage
+    }
+  }
 }
 
 mutation {
-	addProduct(
-		productInput: {
-			sku: "ABCD012345"
-			title: "Stylist combo updated!"
-			price: 150
-			imageUrl: "https://images.google.com/p2"
-		}
-	) {
-		message
-		data {
-			product {
-				id
-				sku
-				title
-				price
-			}
-		}
-	}
+  addProduct(
+    productInput: {
+      sku: "ABCD012345"
+      title: "Stylist combo updated!"
+      price: 150
+      imageUrl: "https://images.google.com/p2"
+    }
+  ) {
+    message
+    data {
+      product {
+        id
+        sku
+        title
+        price
+      }
+    }
+  }
 }
 
 mutation {
-	updateProduct(
-		productId: 2
-		productInput: {
-			sku: "ABCD012345"
-			title: "Stylish Combo updated!"
-			price: 250.00
-			imageUrl: "https://images.google.com/p27"
-		}
-	) {
-		message
-		data {
-			product {
-				id
-				sku
-				title
-				price
-			}
-		}
-	}
+  updateProduct(
+    productId: 2
+    productInput: {
+      sku: "ABCD012345"
+      title: "Stylish Combo updated!"
+      price: 250.00
+      imageUrl: "https://images.google.com/p27"
+    }
+  ) {
+    message
+    data {
+      product {
+        id
+        sku
+        title
+        price
+      }
+    }
+  }
 }
 
 mutation {
-	deleteProduct(productId: 2) {
-		message
-		data {
-			product {
-				id
-				sku
-				title
-				price
-			}
-		}
-	}
+  deleteProduct(productId: 2) {
+    message
+    data {
+      product {
+        id
+        sku
+        title
+        price
+      }
+    }
+  }
 }

@@ -4,11 +4,11 @@ const path = require("path");
 const express = require("express");
 
 const errorController = require(path.join(
-	__dirname,
-	"..",
-	"..",
-	"controllers",
-	"errorsController.js"
+    __dirname,
+    "..",
+    "..",
+    "controllers",
+    "errorsController.js"
 ));
 
 const router = express.Router();

@@ -1,53 +1,53 @@
 version: "3"
 services:
-    db:
-        image: mysql:5.7.20
-        container_name: mysql:5.7.20
-        ports:
-            - 3306:3306
-        restart: always
-        environment:
-            - DATABASE_HOST=db:3306
-            - DATABASE_USERNAME=root
-            - DATABASE_PASSWORD=null
-            - DATABASE_NAME=nodejs_ecommerce
+  db:
+    image: mysql:5.7.20
+    container_name: mysql:5.7.20
+    ports:
+      - 3306:3306
+    restart: always
+    environment:
+      - DATABASE_HOST=db:3306
+      - DATABASE_USERNAME=root
+      - DATABASE_PASSWORD=null
+      - DATABASE_NAME=nodejs_ecommerce
 
-    redis:
-        image: redis:alpine
-        container_name: redis
+  redis:
+    image: redis:alpine
+    container_name: redis
 
-    api:
-        image: nodeJS-graphQL-ecommerce-backend-app-dev:latest
-        build:
-            context: ./
-            dockerfile: Dockerfile.dev
-        container_name: nodeJS-graphQL-ecommerce-backend-app-dev
-        ports:
-            - 3500:3500
-        restart: always
-        environment:
-            - NODE_ENV=development
-            - PORT=3500
-        volumes:
-            - /usr/src/nodeJS-graphQL-ecommerce-backend-app/node_modules/ #* Bookmarking volume (Don't map)
-            - ./:/usr/src/nodeJS-graphQL-ecommerce-backend-app/ #* Mapping for nodemon/react-server CDC
+  api:
+    image: nodeJS-graphQL-ecommerce-backend-app-dev:latest
+    build:
+      context: ./
+      dockerfile: Dockerfile.dev
+    container_name: nodeJS-graphQL-ecommerce-backend-app-dev
+    ports:
+      - 3500:3500
+    restart: always
+    environment:
+      - NODE_ENV=development
+      - PORT=3500
+    volumes:
+      - /usr/src/nodeJS-graphQL-ecommerce-backend-app/node_modules/ #* Bookmarking volume (Don't map)
+      - ./:/usr/src/nodeJS-graphQL-ecommerce-backend-app/ #* Mapping for nodemon/react-server CDC
 
-    test: #* npm run test - CDC
-        image: nodeJS-graphQL-ecommerce-backend-app-dev:latest
-        build:
-            context: ./
-            dockerfile: Dockerfile.dev
-        container_name: nodeJS-graphQL-ecommerce-backend-app-dev
-        ports:
-            - 3500:3500
-        restart: always
-        environment:
-            - NODE_ENV=development
-            - PORT=3500
-        volumes:
-            - /usr/src/nodeJS-graphQL-ecommerce-backend-app/node_modules/ #* Bookmarking volume (Don't map)
-            - ./:/usr/src/nodeJS-graphQL-ecommerce-backend-app/ #* Mapping for nodemon/react-server CDC
-        commands: npm run test
+  test: #* npm run test - CDC
+    image: nodeJS-graphQL-ecommerce-backend-app-dev:latest
+    build:
+      context: ./
+      dockerfile: Dockerfile.dev
+    container_name: nodeJS-graphQL-ecommerce-backend-app-dev
+    ports:
+      - 3500:3500
+    restart: always
+    environment:
+      - NODE_ENV=development
+      - PORT=3500
+    volumes:
+      - /usr/src/nodeJS-graphQL-ecommerce-backend-app/node_modules/ #* Bookmarking volume (Don't map)
+      - ./:/usr/src/nodeJS-graphQL-ecommerce-backend-app/ #* Mapping for nodemon/react-server CDC
+    commands: npm run test
 #* docker-compose -f docker-compose.dev.yml up -d
 #* docker exec -it <docker-test-shell> sh #* Downside - not able to manipulate the test suite #* attach with primary process - npm, hence no mechenism to attach with the secondary process - main test suite
 

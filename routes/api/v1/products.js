@@ -5,34 +5,34 @@ const path = require("path");
 const express = require("express");
 
 const customValidators = require(path.join(
-	__dirname,
-	"..",
-	"..",
-	"..",
-	"customMiddlewares",
-	"api",
-	"v1",
-	"validators.js"
+    __dirname,
+    "..",
+    "..",
+    "..",
+    "customMiddlewares",
+    "api",
+    "v1",
+    "validators.js"
 ));
 const isAuth = require(path.join(
-	__dirname,
-	"..",
-	"..",
-	"..",
-	"customMiddlewares",
-	"api",
-	"v1",
-	"isAuth.js"
+    __dirname,
+    "..",
+    "..",
+    "..",
+    "customMiddlewares",
+    "api",
+    "v1",
+    "isAuth.js"
 ));
 const productsController = require(path.join(
-	__dirname,
-	"..",
-	"..",
-	"..",
-	"controllers",
-	"api",
-	"v1",
-	"productsController.js"
+    __dirname,
+    "..",
+    "..",
+    "..",
+    "controllers",
+    "api",
+    "v1",
+    "productsController.js"
 ));
 
 const router = express.Router();
@@ -160,10 +160,10 @@ router.get("/", productsController.getAllProducts);
  */
 //* POST /api/v1/products PRIVATE
 router.post(
-	"/",
-	customValidators.productValidator,
-	isAuth,
-	productsController.addProduct
+    "/",
+    customValidators.productValidator,
+    isAuth,
+    productsController.addProduct
 );
 
 /**
@@ -228,10 +228,10 @@ router.post(
  */
 //* PUT /api/v1/products/:productId PRIVATE
 router.put(
-	"/:productId",
-	customValidators.productValidator,
-	isAuth,
-	productsController.updateProduct
+    "/:productId",
+    customValidators.productValidator,
+    isAuth,
+    productsController.updateProduct
 );
 
 /**
