@@ -5,16 +5,11 @@
 !**/.vscode/extensions.json
 
 **/tmp/
-**/*.swp
 dump/*.sql
-logs/*.log
 config/*.js
-**/.history
-**/.DS_Store
 node_modules/
-nodePM2Deployers/*
+nodePM2Deployers/
 data/invoices/*.pdf
-!nodePM2Deployers/.gitkeep
 
 .env
 *.swo
@@ -24,6 +19,9 @@ data/invoices/*.pdf
 *.lock
 *.yaml
 dump.rdb
+.history
+.DS_Store
+!.gitkeep
 newrelic.js
 npm-debug.log
 package-lock.json
