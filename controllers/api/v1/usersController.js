@@ -1,30 +1,30 @@
-"use strict";
+'use strict';
 
-const path = require("path");
-const crypto = require("crypto");
+const path = require('path');
+const crypto = require('crypto');
 
-const io = require("@pm2/io");
-const jwt = require("jsonwebtoken");
-const bcryptjs = require("bcryptjs");
-const { validationResult } = require("express-validator/check");
-const nodemailer = require("nodemailer");
-const nodemailerSendgridTransporter = require("nodemailer-sendgrid-transport");
+const io = require('@pm2/io');
+const jwt = require('jsonwebtoken');
+const bcryptjs = require('bcryptjs');
+const { validationResult } = require('express-validator/check');
+const nodemailer = require('nodemailer');
+const nodemailerSendgridTransporter = require('nodemailer-sendgrid-transport');
 
 const { SOURCE } = require(path.join(
     __dirname,
-    "..",
-    "..",
-    "..",
-    "constants.js"
+    '..',
+    '..',
+    '..',
+    'constants.js'
 ));
-const jwtUtil = require(path.join(SOURCE, "utils", "jwt.js"));
+const jwtUtil = require(path.join(SOURCE, 'utils', 'jwt.js'));
 const db = require(path.join(
     __dirname,
-    "..",
-    "..",
-    "..",
-    "models",
-    "index.js"
+    '..',
+    '..',
+    '..',
+    'models',
+    'index.js'
 ));
 
 const { Op } = db.Sequelize;
@@ -37,7 +37,7 @@ const emailTransporter = nodemailer.createTransport(
 );
 
 const activeLoggedInUserCounter = io.counter({
-    name: "activeLoggedInUserCounter"
+    name: 'activeLoggedInUserCounter'
 });
 
 class UsersController {
@@ -49,7 +49,7 @@ class UsersController {
                 password: req.user.status
             };
             res.status(200).json({
-                message: "User fetched!",
+                message: 'User fetched!',
                 data: { user: user }
             });
             return;
@@ -65,17 +65,17 @@ class UsersController {
             const itemsPerPage = +process.env.PAGINATION_PER_PAGE;
             const totalUserProductsCount = await req.user.countProducts();
             if (+totalUserProductsCount === 0) {
-                const error = new Error("Product not found!");
+                const error = new Error('Product not found!');
                 error.httpStatusCode = 404;
                 throw error;
             }
             const userProducts = await req.user.getProducts({
-                order: [["createdAt", "DESC"]],
+                order: [['createdAt', 'DESC']],
                 offset: (currentPage - 1) * itemsPerPage,
                 limit: itemsPerPage
             });
             if (!userProducts || !(userProducts.length > 0)) {
-                const error = new Error("Product not found!");
+                const error = new Error('Product not found!');
                 error.httpStatusCode = 404;
                 throw error;
             }
@@ -90,7 +90,7 @@ class UsersController {
                 lastPage: Math.ceil(totalUserProductsCount / itemsPerPage)
             };
             res.status(200).json({
-                message: "Products fetched!",
+                message: 'Products fetched!',
                 data: finalResult
             });
             return;
@@ -104,7 +104,7 @@ class UsersController {
         try {
             const validationErrors = validationResult(req);
             if (!validationErrors.isEmpty()) {
-                const error = new Error("Client invalid input!");
+                const error = new Error('Client invalid input!');
                 error.httpStatusCode = 422;
                 error.data = validationErrors.array();
                 throw error;
@@ -118,14 +118,14 @@ class UsersController {
                 isAdmin: req.body.isAdmin || false
             });
             res.status(201).json({
-                message: "User created!",
+                message: 'User created!',
                 data: { user: newUser }
             });
             //* Async hence sent the response already
             return emailTransporter.sendMail({
                 from: process.env.SYSTEM_EMAIL_ID,
                 to: newUser.email,
-                subject: "Yah! signup succeeded!",
+                subject: 'Yah! signup succeeded!',
                 html: `<h1>Welcome ${newUser.username}</h1>`
             });
         } catch (error) {
@@ -138,7 +138,7 @@ class UsersController {
         try {
             const validationErrors = validationResult(req);
             if (!validationErrors.isEmpty()) {
-                const error = new Error("Client invalid input!");
+                const error = new Error('Client invalid input!');
                 error.httpStatusCode = 422;
                 error.data = validationErrors.array();
                 throw error;
@@ -147,7 +147,7 @@ class UsersController {
             const password = req.body.password;
             const user = await User.findOne({ where: { email: email } });
             if (!user) {
-                const error = new Error("Email not found!");
+                const error = new Error('Email not found!');
                 error.httpStatusCode = 401;
                 throw error;
             }
@@ -156,19 +156,19 @@ class UsersController {
                 user.password
             );
             if (!isPasswordMatch) {
-                const error = new Error("Wrong password!");
+                const error = new Error('Wrong password!');
                 error.httpStatusCode = 401;
                 throw error;
             }
             const jwtToken = jwt.sign(
                 { userId: +user.id },
                 jwtUtil.getPrivateKey(),
-                { expiresIn: "72h" }
+                { expiresIn: '72h' }
             );
             activeLoggedInUserCounter.inc();
             //TODO: activeLoggedInUserCounter.dec() on logout
             res.status(200).json({
-                message: "Logged in!",
+                message: 'Logged in!',
                 data: {
                     user: user,
                     jwtToken: jwtToken
@@ -186,7 +186,7 @@ class UsersController {
         try {
             const validationErrors = validationResult(req);
             if (!validationErrors.isEmpty()) {
-                const error = new Error("Client invalid input!");
+                const error = new Error('Client invalid input!');
                 error.httpStatusCode = 422;
                 error.data = validationErrors.array();
                 throw error;
@@ -195,25 +195,25 @@ class UsersController {
                 where: { email: req.body.email }
             });
             if (!user) {
-                const error = new Error("User not found!");
+                const error = new Error('User not found!');
                 error.httpStatusCode = 404;
                 throw error;
             }
             const token = await crypto.randomBytes(32);
-            const hexToken = token.toString("hex");
+            const hexToken = token.toString('hex');
             const updatedUser = await user.update({
                 resetToken: hexToken,
                 resetTokenExpiration: Date.now() + 3600 * 1000
             }); //* For 1h
             res.status(200).json({
-                message: "Reset password request processed successfully!",
+                message: 'Reset password request processed successfully!',
                 data: { user: updatedUser }
             });
             //* Async hence sent the response already
             return emailTransporter.sendMail({
                 from: process.env.SYSTEM_EMAIL_ID,
                 to: updatedUser.email,
-                subject: "Passoword reset link!",
+                subject: 'Passoword reset link!',
                 html: `<p>You requested a password reset.</p></br>
         		<p>Please click this link: <a href="${process.env.URL}/users/resetPasswordVerify/${updatedUser.resetToken}">link</a> to reset the password. This link will expire in 1 hour.</p>`
             });
@@ -235,12 +235,12 @@ class UsersController {
                 }
             });
             if (!user) {
-                const error = new Error("User not found!");
+                const error = new Error('User not found!');
                 error.httpStatusCode = 404;
                 throw error;
             }
             res.status(200).json({
-                message: "Reset password verified!",
+                message: 'Reset password verified!',
                 data: { user: user }
             });
         } catch (error) {
@@ -253,7 +253,7 @@ class UsersController {
         try {
             const validationErrors = validationResult(req);
             if (!validationErrors.isEmpty()) {
-                const error = new Error("Client invalid input!");
+                const error = new Error('Client invalid input!');
                 error.httpStatusCode = 422;
                 error.data = validationErrors.array();
                 throw error;
@@ -268,7 +268,7 @@ class UsersController {
                 }
             });
             if (!user) {
-                const error = new Error("User not found!");
+                const error = new Error('User not found!');
                 error.httpStatusCode = 404;
                 throw error;
             }
@@ -282,7 +282,7 @@ class UsersController {
                 resetTokenExpiration: undefined
             });
             res.status(200).json({
-                message: "User password updated!",
+                message: 'User password updated!',
                 data: { user: { updatedUser } }
             });
         } catch (error) {
@@ -295,7 +295,7 @@ class UsersController {
         try {
             const validationErrors = validationResult(req);
             if (!validationErrors.isEmpty()) {
-                const error = new Error("Client invalid input!");
+                const error = new Error('Client invalid input!');
                 error.httpStatusCode = 422;
                 error.data = validationErrors.array();
                 throw error;
@@ -304,7 +304,7 @@ class UsersController {
                 status: req.body.status
             });
             res.status(200).json({
-                message: "User updated!",
+                message: 'User updated!',
                 data: { user: { updatedUser } }
             });
             return;

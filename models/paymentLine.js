@@ -1,9 +1,9 @@
-"use strict";
+'use strict';
 
 //* This saves the paymentVendor response, hence to be less validated purposefully
 module.exports = function(sequelize, DataTypes) {
     const PaymentLine = sequelize.define(
-        "paymentLine",
+        'paymentLine',
         {
             id: {
                 type: DataTypes.INTEGER,
@@ -23,22 +23,22 @@ module.exports = function(sequelize, DataTypes) {
             jsonResponse: {
                 type: DataTypes.TEXT,
                 get: function() {
-                    return JSON.parse(this.getDataValue("jsonResponse"));
+                    return JSON.parse(this.getDataValue('jsonResponse'));
                 },
                 set: function(value) {
-                    this.setDataValue("jsonResponse", JSON.stringify(value));
+                    this.setDataValue('jsonResponse', JSON.stringify(value));
                 }
             }
         },
         {
             timestamps: true,
             paranoid: true,
-            tableName: "payment_lines",
+            tableName: 'payment_lines',
             validate: {},
             indexes: [],
             defaultScope: {
                 attributes: {
-                    exclude: ["createdAt", "updatedAt", "deletedAt"]
+                    exclude: ['createdAt', 'updatedAt', 'deletedAt']
                 }
             },
             scopes: {},

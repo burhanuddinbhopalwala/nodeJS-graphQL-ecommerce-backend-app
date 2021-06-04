@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 /**
  * @swagger
@@ -58,7 +58,7 @@
  */
 module.exports = function(sequelize, DataTypes) {
     const Product = sequelize.define(
-        "product",
+        'product',
         {
             id: {
                 type: DataTypes.INTEGER,
@@ -72,15 +72,15 @@ module.exports = function(sequelize, DataTypes) {
                 validate: {
                     isUppercase: {
                         args: true,
-                        msg: "SKU invalid, must be uppecase!"
+                        msg: 'SKU invalid, must be uppecase!'
                     },
                     isAlphanumeric: {
                         args: true,
-                        msg: "SKU invalid, must be alphanumeric!"
+                        msg: 'SKU invalid, must be alphanumeric!'
                     },
                     len: {
                         args: [10],
-                        msg: "SKU invalid, must be of length 10!"
+                        msg: 'SKU invalid, must be of length 10!'
                     }
                 }
             },
@@ -90,24 +90,24 @@ module.exports = function(sequelize, DataTypes) {
                 validate: {
                     len: {
                         args: [5, 50],
-                        msg: "Title must be of length between 5 to 25!"
+                        msg: 'Title must be of length between 5 to 25!'
                     }
                 }
             },
             description: {
                 type: DataTypes.TEXT,
                 allowNull: true,
-                defaultValue: "No description provided!"
+                defaultValue: 'No description provided!'
             },
             price: {
                 type: DataTypes.DECIMAL(10, 2),
                 allowNull: false,
                 defaultValue: 0.0,
                 validate: {
-                    min: { args: [0.0], msg: "Minimum price >= 0.0" },
+                    min: { args: [0.0], msg: 'Minimum price >= 0.0' },
                     max: {
                         args: [9999999999],
-                        msg: "Maximum price <= 9999999999"
+                        msg: 'Maximum price <= 9999999999'
                     }
                 }
             },
@@ -116,10 +116,10 @@ module.exports = function(sequelize, DataTypes) {
                 allowNull: true,
                 defaultValue: 0.0,
                 validate: {
-                    min: { args: [0.0], msg: "Minimum discountedPrice >= 0.0" },
+                    min: { args: [0.0], msg: 'Minimum discountedPrice >= 0.0' },
                     max: {
                         args: [9999999999],
-                        msg: "Maximum discountedPrice <= 9999999999"
+                        msg: 'Maximum discountedPrice <= 9999999999'
                     }
                 }
             },
@@ -127,32 +127,32 @@ module.exports = function(sequelize, DataTypes) {
                 type: DataTypes.STRING,
                 allowNull: false,
                 validate: {
-                    isUrl: { args: true, msg: "imageUrl invalid format!" }
+                    isUrl: { args: true, msg: 'imageUrl invalid format!' }
                 }
             }
         },
         {
             timestamps: true,
             paranoid: true,
-            tableName: "products",
+            tableName: 'products',
             validate: {},
             indexes: [],
             defaultScope: {
                 attributes: {
-                    exclude: ["createdAt", "updatedAt", "deletedAt"]
+                    exclude: ['createdAt', 'updatedAt', 'deletedAt']
                 }
             },
             scopes: {},
             classMethods: {
                 associate: function(models) {
-                    Product.belongsTo(models.user, { as: "creator" });
+                    Product.belongsTo(models.user, { as: 'creator' });
 
                     Product.belongsToMany(models.cart, {
-                        through: "cartProduct"
+                        through: 'cartProduct'
                     });
 
                     Product.belongsToMany(models.order, {
-                        through: "orderProduct"
+                        through: 'orderProduct'
                     });
                 }
             },

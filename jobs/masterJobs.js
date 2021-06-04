@@ -1,8 +1,8 @@
-"use strict";
+'use strict';
 
-const path = require("path");
+const path = require('path');
 
-const demoJobs = require(path.join(__dirname, "demoJobs.js"));
+const demoJobs = require(path.join(__dirname, 'demoJobs.js'));
 
 class MasterJobs {
     static async runMasterJobs() {

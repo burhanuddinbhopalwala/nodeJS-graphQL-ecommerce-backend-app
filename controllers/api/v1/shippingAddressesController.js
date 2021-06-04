@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 
-const { validationResult } = require("express-validator/check");
+const { validationResult } = require('express-validator/check');
 
 class shippingAddressesController {
     static async getAllUserShippingAdressesDetails(req, res, next) {
@@ -9,17 +9,17 @@ class shippingAddressesController {
             const itemsPerPage = +process.env.PAGINATION_PER_PAGE;
             const totalUserShippingAddressesCount = await req.user.countShippingAddresses();
             if (+totalUserShippingAddressesCount === 0) {
-                const error = new Error("shippingAddress not found!");
+                const error = new Error('shippingAddress not found!');
                 error.httpStatusCode = 404;
                 throw error;
             }
             const userShippingAddresses = await req.user.getShippingAddresses({
-                order: [["updatedAt", "DESC"]],
+                order: [['updatedAt', 'DESC']],
                 offset: (currentPage - 1) * itemsPerPage,
                 limit: itemsPerPage
             });
             if (!userShippingAddresses || !(userShippingAddresses.length > 0)) {
-                const error = new Error("shippingAddress not found!");
+                const error = new Error('shippingAddress not found!');
                 error.httpStatusCode = 404;
                 throw error;
             }
@@ -37,7 +37,7 @@ class shippingAddressesController {
                 )
             };
             res.status(200).json({
-                message: "shippingAddresses fetched!",
+                message: 'shippingAddresses fetched!',
                 data: finalResult
             });
             return;
@@ -51,7 +51,7 @@ class shippingAddressesController {
         try {
             const validationErrors = validationResult(req);
             if (!validationErrors.isEmpty()) {
-                const error = new Error("Client invalid input!");
+                const error = new Error('Client invalid input!');
                 error.httpStatusCode = 422;
                 error.data = validationErrors.array();
                 throw error;
@@ -70,7 +70,7 @@ class shippingAddressesController {
                 type: req.body.type
             });
             res.status(201).json({
-                message: "shippingAddress created!",
+                message: 'shippingAddress created!',
                 data: { shippingAddress: shippingAddress }
             });
             return;
@@ -84,7 +84,7 @@ class shippingAddressesController {
         try {
             const validationErrors = validationResult(req);
             if (!validationErrors.isEmpty()) {
-                const error = new Error("Client invalid input!");
+                const error = new Error('Client invalid input!');
                 error.httpStatusCode = 422;
                 error.data = validationErrors.array();
                 throw error;
@@ -94,7 +94,7 @@ class shippingAddressesController {
                 where: { id: shippingAddressId }
             });
             if (!shippingAddresses || !(shippingAddresses.length > 0)) {
-                const error = new Error("shippingAddress not found!");
+                const error = new Error('shippingAddress not found!');
                 error.httpStatusCode = 404;
                 throw error;
             }
@@ -112,7 +112,7 @@ class shippingAddressesController {
                 type: req.body.type
             });
             res.status(200).json({
-                message: "shippingAddress updated!",
+                message: 'shippingAddress updated!',
                 data: { shippingAddress: shippingAddress }
             });
             return;
@@ -129,14 +129,14 @@ class shippingAddressesController {
                 where: { id: shippingAddressId }
             });
             if (!shippingAddresses || !(shippingAddresses.length > 0)) {
-                const error = new Error("shippingAddress not found!");
+                const error = new Error('shippingAddress not found!');
                 error.httpStatusCode = 404;
                 throw error;
             }
             const shippingAddress = shippingAddresses[0];
             await shippingAddress.destroy();
             res.status(200).json({
-                message: "shippingAddress destroyed!",
+                message: 'shippingAddress destroyed!',
                 data: { shippingAddress: shippingAddress }
             });
             return;

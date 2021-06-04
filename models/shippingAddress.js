@@ -1,10 +1,10 @@
-"use strict";
+'use strict';
 
 // const { validate } = require("express-validator/check");
 
 module.exports = function(sequelize, DataTypes) {
     const shippingAddress = sequelize.define(
-        "shippingAddress",
+        'shippingAddress',
         {
             id: {
                 type: DataTypes.INTEGER,
@@ -17,7 +17,7 @@ module.exports = function(sequelize, DataTypes) {
                 validate: {
                     len: {
                         args: [5, 25],
-                        msg: "Fullname must be of length between 5 to 25!"
+                        msg: 'Fullname must be of length between 5 to 25!'
                     }
                 }
             },
@@ -27,7 +27,7 @@ module.exports = function(sequelize, DataTypes) {
                 validate: {
                     len: {
                         args: [10],
-                        msg: "Mobile phone must be of length between 10 digits!"
+                        msg: 'Mobile phone must be of length between 10 digits!'
                     }
                 }
             },
@@ -37,7 +37,7 @@ module.exports = function(sequelize, DataTypes) {
                 validate: {
                     len: {
                         args: [5, 50],
-                        msg: "Address1 must be of length between 5 to 50!"
+                        msg: 'Address1 must be of length between 5 to 50!'
                     }
                 }
             },
@@ -48,7 +48,7 @@ module.exports = function(sequelize, DataTypes) {
                 validate: {
                     len: {
                         args: [5, 50],
-                        msg: "Landmark must be of length between 5 to 50!"
+                        msg: 'Landmark must be of length between 5 to 50!'
                     }
                 }
             },
@@ -67,40 +67,40 @@ module.exports = function(sequelize, DataTypes) {
                 validate: {
                     len: {
                         args: [5, 25],
-                        msg: "City must be of length between 5 to 25!"
+                        msg: 'City must be of length between 5 to 25!'
                     }
                 }
             },
             state: {
                 type: DataTypes.ENUM(
-                    "Madhya Pradesh",
-                    "Uttar Pradesh",
-                    "Washington",
-                    "Texas"
+                    'Madhya Pradesh',
+                    'Uttar Pradesh',
+                    'Washington',
+                    'Texas'
                 ),
                 allowNull: false,
-                defaultValue: "Uttar Pradesh"
+                defaultValue: 'Uttar Pradesh'
             },
             country: {
-                type: DataTypes.ENUM("IND", "USA"),
+                type: DataTypes.ENUM('IND', 'USA'),
                 allowNull: false,
-                defaultValue: "IND"
+                defaultValue: 'IND'
             },
             type: {
-                type: DataTypes.ENUM("home", "office", "other"),
+                type: DataTypes.ENUM('home', 'office', 'other'),
                 allowNull: false,
-                defaultValue: "home"
+                defaultValue: 'home'
             }
         },
         {
             timestamps: true,
             paranoid: true,
-            tableName: "shipping_addresses",
+            tableName: 'shipping_addresses',
             validate: {},
             indexes: [],
             defaultScope: {
                 attributes: {
-                    exclude: ["createdAt", "updatedAt", "deletedAt"]
+                    exclude: ['createdAt', 'updatedAt', 'deletedAt']
                 }
             },
             scopes: {},

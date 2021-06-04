@@ -1,8 +1,8 @@
-"use strict";
+'use strict';
 
 module.exports = function(sequelize, DataTypes) {
     const Cart = sequelize.define(
-        "cart",
+        'cart',
         {
             id: {
                 type: DataTypes.INTEGER,
@@ -12,12 +12,12 @@ module.exports = function(sequelize, DataTypes) {
         },
         {
             timestamps: true,
-            tableName: "carts",
+            tableName: 'carts',
             validate: {},
             indexes: [],
             defaultScope: {
                 attributes: {
-                    exclude: ["createdAt", "updatedAt", "deletedAt"]
+                    exclude: ['createdAt', 'updatedAt', 'deletedAt']
                 }
             },
             scopes: {},
@@ -26,7 +26,7 @@ module.exports = function(sequelize, DataTypes) {
                     Cart.belongsTo(models.user);
 
                     Cart.belongsToMany(models.product, {
-                        through: "cartProduct"
+                        through: 'cartProduct'
                     });
                 }
             },

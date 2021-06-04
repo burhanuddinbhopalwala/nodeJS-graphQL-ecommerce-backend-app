@@ -1,8 +1,8 @@
-"use strict";
+'use strict';
 
 module.exports = function(sequelize, DataTypes) {
     const User = sequelize.define(
-        "user",
+        'user',
         {
             id: {
                 type: DataTypes.INTEGER,
@@ -14,7 +14,7 @@ module.exports = function(sequelize, DataTypes) {
                 type: DataTypes.STRING,
                 unique: true,
                 allowNull: false,
-                validate: { isEmail: { args: true, msg: "Invalid email!" } }
+                validate: { isEmail: { args: true, msg: 'Invalid email!' } }
             },
             username: {
                 type: DataTypes.STRING,
@@ -22,7 +22,7 @@ module.exports = function(sequelize, DataTypes) {
                 validate: {
                     len: {
                         args: [5, 25],
-                        msg: "Username must be of length between 5 to 25!"
+                        msg: 'Username must be of length between 5 to 25!'
                     }
                 }
             },
@@ -53,7 +53,7 @@ module.exports = function(sequelize, DataTypes) {
                 validate: {
                     isCreditCard: {
                         args: true,
-                        msg: "Credit card number invalid!"
+                        msg: 'Credit card number invalid!'
                     }
                 }
             },
@@ -69,42 +69,42 @@ module.exports = function(sequelize, DataTypes) {
         {
             timestamps: true,
             paranoid: true,
-            tableName: "users",
+            tableName: 'users',
             validate: {},
             indexes: [
                 {
-                    name: "idx_email_customers",
-                    method: "BTREE",
-                    fields: ["email"]
+                    name: 'idx_email_customers',
+                    method: 'BTREE',
+                    fields: ['email']
                 }
             ],
             defaultScope: {
                 attributes: {
-                    exclude: ["createdAt", "updatedAt", "deletedAt"]
+                    exclude: ['createdAt', 'updatedAt', 'deletedAt']
                 }
             },
             scopes: {},
             classMethods: {
                 associate: function(models) {
                     User.hasMany(models.product, {
-                        foreignKey: "creatorId",
+                        foreignKey: 'creatorId',
                         constraints: true,
-                        onDelete: "CASCADE"
+                        onDelete: 'CASCADE'
                     });
 
                     User.hasOne(models.cart, {
                         constraints: true,
-                        onDelete: "CASCADE"
+                        onDelete: 'CASCADE'
                     });
 
                     User.hasMany(models.shippingAddress, {
                         constraints: true,
-                        onDelete: "CASCADE"
+                        onDelete: 'CASCADE'
                     });
 
                     User.hasMany(models.order, {
                         constraints: true,
-                        onDelete: "CASCADE"
+                        onDelete: 'CASCADE'
                     });
                 }
             },

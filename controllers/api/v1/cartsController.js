@@ -1,16 +1,16 @@
-"use strict";
+'use strict';
 
-const path = require("path");
+const path = require('path');
 
-const { validationResult } = require("express-validator/check");
+const { validationResult } = require('express-validator/check');
 
 const db = require(path.join(
     __dirname,
-    "..",
-    "..",
-    "..",
-    "models",
-    "index.js"
+    '..',
+    '..',
+    '..',
+    'models',
+    'index.js'
 ));
 
 const Product = db.product;
@@ -23,18 +23,18 @@ class CartsController {
             const itemsPerPage = +process.env.PAGINATION_PER_PAGE;
             const cart = await req.user.getCart({
                 include: [{ model: Product, duplicating: false }],
-                order: [[Product, cartProduct, "addedOn", "DESC"]],
+                order: [[Product, cartProduct, 'addedOn', 'DESC']],
                 offset: (currentPage - 1) * itemsPerPage,
                 limit: itemsPerPage
             });
             if (!cart) {
-                const error = new Error("Cart not found!");
+                const error = new Error('Cart not found!');
                 error.httpStatusCode = 404;
                 throw error;
             }
             const totalProductsCount = cart.products.length;
             if (+totalProductsCount === 0) {
-                const error = new Error("Product not found!");
+                const error = new Error('Product not found!');
                 error.httpStatusCode = 404;
                 throw error;
             }
@@ -49,7 +49,7 @@ class CartsController {
                 lastPage: Math.ceil(totalProductsCount / itemsPerPage)
             };
             res.status(200).json({
-                message: "Cart fetched!",
+                message: 'Cart fetched!',
                 data: finalResult
             });
             return;
@@ -76,7 +76,7 @@ class CartsController {
             if (!cartProduct) {
                 const product = await Product.findByPk(productId);
                 if (!product) {
-                    const error = new Error("Product not found!");
+                    const error = new Error('Product not found!');
                     error.httpStatusCode = 404;
                     throw error;
                 }
@@ -90,14 +90,14 @@ class CartsController {
                     product => product.id === productId
                 )[0];
                 res.status(201).json({
-                    message: "Cart product created!",
+                    message: 'Cart product created!',
                     data: { product: cartProduct, cart: cart }
                 });
                 return;
             } else {
                 await cart.reload();
                 res.status(200).json({
-                    message: "Already added to cart!",
+                    message: 'Already added to cart!',
                     data: { product: cartProduct, cart: cart }
                 });
                 return;
@@ -112,7 +112,7 @@ class CartsController {
         try {
             const validationErrors = validationResult(req);
             if (!validationErrors.isEmpty()) {
-                const error = new Error("Client invalid input!");
+                const error = new Error('Client invalid input!');
                 error.httpStatusCode = 422;
                 error.data = validationErrors.array();
                 throw error;
@@ -123,7 +123,7 @@ class CartsController {
                 include: [{ model: Product, duplicating: false }]
             });
             if (!cart) {
-                const error = new Error("cart not found!");
+                const error = new Error('cart not found!');
                 error.httpStatusCode = 404;
                 throw error;
             }
@@ -131,7 +131,7 @@ class CartsController {
                 product => product.id === productId
             )[0];
             if (!cartProduct) {
-                const error = new Error("cartProduct not found!");
+                const error = new Error('cartProduct not found!');
                 error.httpStatusCode = 404;
                 throw error;
             }
@@ -142,7 +142,7 @@ class CartsController {
                 // await cart.update({ updatedAt: Date.now() });
                 await cart.reload();
                 res.status(200).json({
-                    message: "cartProduct deleted!",
+                    message: 'cartProduct deleted!',
                     data: { product: cartProduct, cart: cart }
                 });
                 return;
@@ -154,7 +154,7 @@ class CartsController {
                 // await cart.update({ updatedAt: Date.now() });
                 await cart.reload();
                 res.status(200).json({
-                    message: "cartProduct updated!",
+                    message: 'cartProduct updated!',
                     data: { product: cartProduct, cart: cart }
                 });
                 return;

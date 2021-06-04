@@ -1,16 +1,16 @@
-"use strict";
+'use strict';
 
-const schedule = require("node-schedule");
+const schedule = require('node-schedule');
 //* https://www.npmjs.com/package/node-schedule
 
 class DemoJobs {
     static async printHello() {
         try {
             const printHelloJob = schedule.scheduleJob(
-                "*/30 * * * * *", //* For every 30 seconds!
+                '*/30 * * * * *', //* For every 30 seconds!
                 function() {
                     console.log(
-                        "Hello - The answer to life, the universe, and everything!"
+                        'Hello - The answer to life, the universe, and everything!'
                     );
                 }
             );

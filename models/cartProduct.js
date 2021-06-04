@@ -1,8 +1,8 @@
-"use strict";
+'use strict';
 
 module.exports = function(sequelize, DataTypes) {
     const cartProduct = sequelize.define(
-        "cartProduct",
+        'cartProduct',
         {
             id: {
                 type: DataTypes.INTEGER,
@@ -15,11 +15,11 @@ module.exports = function(sequelize, DataTypes) {
                 validate: {
                     min: {
                         args: 1,
-                        msg: "Quantity more than 10 not allowed per order!"
+                        msg: 'Quantity more than 10 not allowed per order!'
                     },
                     max: {
                         args: 10,
-                        msg: "Quantity more than 10 not allowed per order!"
+                        msg: 'Quantity more than 10 not allowed per order!'
                     }
                 }
             },
@@ -27,10 +27,10 @@ module.exports = function(sequelize, DataTypes) {
         },
         {
             timestamps: true,
-            tableName: "cart_products",
+            tableName: 'cart_products',
             defaultScope: {
                 attributes: {
-                    exclude: ["createdAt", "updatedAt", "deletedAt"]
+                    exclude: ['createdAt', 'updatedAt', 'deletedAt']
                 }
             }
         }

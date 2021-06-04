@@ -1,4 +1,4 @@
-version: "3"
+version: '3'
 services:
   nodeJS-graphQL-ecommerce-backend-app:
     hostname: nodeJS-graphQL-ecommerce-backend-app

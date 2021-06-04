@@ -1,8 +1,8 @@
-"use strict";
+'use strict';
 
 module.exports = function(sequelize, DataTypes) {
     const Order = sequelize.define(
-        "order",
+        'order',
         {
             id: {
                 type: DataTypes.INTEGER,
@@ -14,19 +14,19 @@ module.exports = function(sequelize, DataTypes) {
                 allowNull: false
             },
             state: {
-                type: DataTypes.ENUM("cart", "checkout", "hold", "closed"),
+                type: DataTypes.ENUM('cart', 'checkout', 'hold', 'closed'),
                 allowNull: false,
-                defaultValue: "cart"
+                defaultValue: 'cart'
             },
             status: {
                 type: DataTypes.ENUM(
-                    "created",
-                    "completed",
-                    "delivered",
-                    "cancelled"
+                    'created',
+                    'completed',
+                    'delivered',
+                    'cancelled'
                 ),
                 allowNull: false,
-                defaultValue: "created"
+                defaultValue: 'created'
             },
             completedAt: { type: DataTypes.DATE }, //* Only filled when completed else not
             comments: DataTypes.STRING
@@ -34,35 +34,35 @@ module.exports = function(sequelize, DataTypes) {
         {
             timestamps: true,
             paranoid: true,
-            tableName: "orders",
+            tableName: 'orders',
             validate: {},
             indexes: [],
             defaultScope: {
                 attributes: {
-                    exclude: ["createdAt", "updatedAt", "deletedAt"]
+                    exclude: ['createdAt', 'updatedAt', 'deletedAt']
                 }
             },
             scopes: {
                 closedState: {
                     where: {
-                        state: "closed"
+                        state: 'closed'
                     }
                 }
             },
             classMethods: {
                 associate: function(models) {
                     Order.belongsToMany(models.product, {
-                        through: "orderProduct"
+                        through: 'orderProduct'
                     });
 
                     Order.hasOne(models.shippingAddress, {
                         constraints: true,
-                        onDelete: "CASCADE"
+                        onDelete: 'CASCADE'
                     });
 
                     Order.hasMany(models.paymentLine, {
                         constraints: true,
-                        onDelete: "CASCADE"
+                        onDelete: 'CASCADE'
                     });
                 }
             },

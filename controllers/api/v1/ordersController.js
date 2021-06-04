@@ -1,19 +1,19 @@
-"use strict";
+'use strict';
 
-const fs = require("fs");
-const path = require("path");
+const fs = require('fs');
+const path = require('path');
 
-const pdfKit = require("pdfkit");
-const stripe = require("stripe")(process.env.STRIPE_KEY);
-const { validationResult } = require("express-validator/check");
+const pdfKit = require('pdfkit');
+const stripe = require('stripe')(process.env.STRIPE_KEY);
+const { validationResult } = require('express-validator/check');
 
 const db = require(path.join(
     __dirname,
-    "..",
-    "..",
-    "..",
-    "models",
-    "index.js"
+    '..',
+    '..',
+    '..',
+    'models',
+    'index.js'
 ));
 
 const { Op } = db.Sequelize;
@@ -24,10 +24,10 @@ class OrdersController {
             const currentPage = +req.query.page || 1;
             const itemsPerPage = +process.env.PAGINATION_PER_PAGE;
             const totalUserClosedOrdersCount = await req.user.countOrders({
-                where: { state: "closed" }
+                where: { state: 'closed' }
             });
             const totalUserClosedOrders = await req.user.getOrders({
-                where: { state: "closed" },
+                where: { state: 'closed' },
                 include: [
                     {
                         model: db.product,
@@ -38,12 +38,12 @@ class OrdersController {
                         duplicating: false
                     }
                 ],
-                order: [["updatedAt", "DESC"]],
+                order: [['updatedAt', 'DESC']],
                 offset: (currentPage - 1) * itemsPerPage,
                 limit: itemsPerPage
             });
             if (!totalUserClosedOrders || !(totalUserClosedOrders.length > 0)) {
-                const error = new Error("userOrders not found!");
+                const error = new Error('userOrders not found!');
                 error.httpStatusCode = 404;
                 throw error;
             }
@@ -58,7 +58,7 @@ class OrdersController {
                 lastPage: Math.ceil(totalUserClosedOrdersCount / itemsPerPage)
             };
             res.status(200).json({
-                message: "userOrders fetched!",
+                message: 'userOrders fetched!',
                 data: finalResult
             });
             return;
@@ -72,7 +72,7 @@ class OrdersController {
         try {
             const orderId = +req.params.orderId;
             const userOrders = await req.user.getOrders({
-                where: { id: orderId, state: "closed" },
+                where: { id: orderId, state: 'closed' },
                 include: [
                     {
                         model: db.product,
@@ -85,14 +85,14 @@ class OrdersController {
                 ]
             });
             if (!userOrders || !(userOrders.length > 0)) {
-                const error = new Error("Order not found!");
+                const error = new Error('Order not found!');
                 error.httpStatusCode = 404;
                 throw error;
             }
             const userOrder = userOrders[0];
             userOrder.dataValues.invoiceLink = `${process.env.URL}/orders/invoice/${orderId}`;
             res.status(200).json({
-                message: "userOrder fetched!",
+                message: 'userOrder fetched!',
                 data: { order: userOrder }
             });
             return;
@@ -106,7 +106,7 @@ class OrdersController {
         try {
             const orderId = req.params.orderId;
             const userOrders = await req.user.getOrders({
-                where: { id: orderId, state: "closed" },
+                where: { id: orderId, state: 'closed' },
                 include: [
                     {
                         model: db.product,
@@ -118,39 +118,39 @@ class OrdersController {
                     },
                     {
                         model: db.paymentLine,
-                        attributes: ["id", "currency"],
+                        attributes: ['id', 'currency'],
                         duplicating: false
                     }
                 ]
             });
             if (!userOrders && !(userOrders.length > 0)) {
-                const error = new Error("Order not found!");
+                const error = new Error('Order not found!');
                 error.httpStatusCode = 404;
                 throw error;
             }
             const userOrder = userOrders[0];
             //* Preparing invoice
             const pdfInvoice = new pdfKit();
-            const invoiceName = "invoice_" + orderId + ".pdf";
-            const invoicePath = path.join("data", "invoices", invoiceName);
+            const invoiceName = 'invoice_' + orderId + '.pdf';
+            const invoicePath = path.join('data', 'invoices', invoiceName);
             pdfInvoice.pipe(fs.createWriteStream(invoicePath));
             pdfInvoice.pipe(res);
             //* Writing invoice data
-            pdfInvoice.fontSize(20).text("Invoice", { underline: true });
+            pdfInvoice.fontSize(20).text('Invoice', { underline: true });
             pdfInvoice.fontSize(18).text(
                 `orderID:${userOrder.id}@${userOrder.completedAt
                     .toString()
-                    .split("GMT")[0]
+                    .split('GMT')[0]
                     .trim()}`
             );
-            pdfInvoice.text("---------------------------------------");
+            pdfInvoice.text('---------------------------------------');
             userOrder.products.forEach(product => {
                 pdfInvoice
                     .fontSize(14)
                     .text(
                         `${product.title}---- ${product.orderProduct.quantity} x ${product.price}`
                     );
-                pdfInvoice.text("------\n");
+                pdfInvoice.text('------\n');
             });
             pdfInvoice.fontSize(10).text(
                 `Shipping/ Billing Address: \n
@@ -165,7 +165,7 @@ class OrdersController {
 				country: ${userOrder.shippingAddress.country}
 				type: ${userOrder.shippingAddress.type}`
             );
-            pdfInvoice.text("------\n");
+            pdfInvoice.text('------\n');
             pdfInvoice
                 .fontSize(16)
                 .text(
@@ -175,9 +175,9 @@ class OrdersController {
                 );
             //* -------------------------------------------------------;
             pdfInvoice.end();
-            res.setHeader("Content-Type", "application/pdf");
+            res.setHeader('Content-Type', 'application/pdf');
             res.setHeader(
-                "Content-Disposition",
+                'Content-Disposition',
                 `inline; filename=${invoicePath}`
             );
         } catch (error) {
@@ -193,13 +193,13 @@ class OrdersController {
                 lock: true
             });
             if (!cart) {
-                const error = new Error("Cart not found!");
+                const error = new Error('Cart not found!');
                 error.httpStatusCode = 404;
                 throw error;
             }
             const cartProducts = cart.products;
             if (!cartProducts || !(cartProducts.length > 0)) {
-                const error = new Error("cartProducts not found!");
+                const error = new Error('cartProducts not found!');
                 error.httpStatusCode = 404;
                 throw error;
             }
@@ -215,7 +215,7 @@ class OrdersController {
                         +product2.price * +product2.cartProduct.quantity
                 })).totalAmount;
             res.status(200).json({
-                message: "Checkout fetched!",
+                message: 'Checkout fetched!',
                 data: {
                     cart: cart,
                     totalAmount: totalAmount
@@ -236,7 +236,7 @@ class OrdersController {
                 lock: true
             });
             if (!cart) {
-                const error = new Error("Cart not found!");
+                const error = new Error('Cart not found!');
                 error.httpStatusCode = 404;
                 throw error;
             }
@@ -245,22 +245,22 @@ class OrdersController {
                 where: { id: +req.body.shippingAddressId }
             });
             if (!userShippingAddresses || !(userShippingAddresses.length > 0)) {
-                const error = new Error("Shipping address not found!");
+                const error = new Error('Shipping address not found!');
                 error.httpStatusCode = 404;
                 throw error;
             }
             const userShippingAddress = userShippingAddresses[0];
             const cartProducts = cart.products;
             if (!cartProducts || !(cartProducts.length > 0)) {
-                const error = new Error("cartProducts not found!");
+                const error = new Error('cartProducts not found!');
                 error.httpStatusCode = 404;
                 throw error;
             }
             //* Need to closed the exisitng open order first before creating new order
             const existingUserCartOrder = await req.user.getOrders({
                 where: {
-                    state: { [Op.or]: ["cart", "checkout"] },
-                    status: "created"
+                    state: { [Op.or]: ['cart', 'checkout'] },
+                    status: 'created'
                 },
                 limit: 1, //* "hold" orders must be completed manually
                 lock: true
@@ -326,12 +326,12 @@ class OrdersController {
             OrdersController.processPayment(req, res, cart, userOrder);
             return;
         } catch (error) {
-            if (userOrder && userOrder.state !== "checkout") {
+            if (userOrder && userOrder.state !== 'checkout') {
                 console.log(
                     //* For later debugging
                     `>>>>>>PAYMENT ERROR FOR ORDER ID: ${userOrder.id}>>>>>${error.message}>>>>>>>>>`
                 );
-                userOrder.state = "checkout";
+                userOrder.state = 'checkout';
                 const updatedUserOrder = await userOrder.save();
                 error.data = {
                     order: {
@@ -358,44 +358,44 @@ class OrdersController {
             const sourceForStripe = await stripe.customers.createSource(
                 stripeCustomer.id,
                 {
-                    source: "tok_visa"
+                    source: 'tok_visa'
                 }
             );
             //* Creating charge
             const userStripeCharge = await stripe.charges.create({
                 amount: Math.ceil(+userOrder.totalAmount),
-                currency: "usd",
+                currency: 'usd',
                 customer: sourceForStripe.customer,
-                description: "Burhanuddin! for turing project",
+                description: 'Burhanuddin! for turing project',
                 metadata: {
                     email: req.user.email,
                     orderId: userOrder.id
                 }
             });
             //FIXME: Missing CHECKSUM verification!, doing manually on some fields now
-            let state = "closed";
+            let state = 'closed';
             console.log(
                 `>>>>>>STRIPE SUCCESS FOR ORDER ID: ${userOrder.id}>>>>>>>>>>>>>>`
             );
             if (
-                !(userStripeCharge.status === "succeeded") ||
+                !(userStripeCharge.status === 'succeeded') ||
                 !(+userStripeCharge.amount === +userOrder.totalAmount) ||
                 !(userStripeCharge.captured === true) ||
-                !(userStripeCharge.currency === "usd") ||
+                !(userStripeCharge.currency === 'usd') ||
                 !(userStripeCharge.customer === sourceForStripe.customer) ||
                 !(+userStripeCharge.metadata.orderId === +userOrder.id) ||
                 !(userStripeCharge.metadata.email === req.user.email) ||
                 !(userStripeCharge.paid === true) ||
                 !(
                     userStripeCharge.outcome.seller_message ===
-                    "Payment complete."
+                    'Payment complete.'
                 )
             ) {
-                state = "hold";
+                state = 'hold';
             }
-            let status = "created";
-            if (state === "closed") status = "completed";
-            if (status === "completed")
+            let status = 'created';
+            if (state === 'closed') status = 'completed';
+            if (status === 'completed')
                 await userOrder.update({
                     state: state,
                     status: status,
@@ -419,7 +419,7 @@ class OrdersController {
             //* Deleting the existing CART now
             await cart.destroy(); //* cartProducts will also be cascade, onDelete
             res.status(200).json({
-                message: "Order processed!",
+                message: 'Order processed!',
                 order: {
                     orderId: +userOrder.id,
                     username: req.user.username,
@@ -439,7 +439,7 @@ class OrdersController {
         try {
             const validationErrors = validationResult(req);
             if (!validationErrors.isEmpty()) {
-                const error = new Error("Client invalid input!");
+                const error = new Error('Client invalid input!');
                 error.httpStatusCode = 422;
                 error.data = validationErrors.array();
                 throw error;
@@ -449,17 +449,17 @@ class OrdersController {
                 where: { id: orderId }
             });
             if (!userOrders || !(userOrders.length > 0)) {
-                const error = new Error("Order not found!");
+                const error = new Error('Order not found!');
                 error.httpStatusCode = 404;
                 throw error;
             }
             const userOrder = userOrders[0];
             if (
-                !(userOrder.state === "closed") ||
-                !(userOrder.status === "completed") ||
-                !(userOrder.state !== "hold")
+                !(userOrder.state === 'closed') ||
+                !(userOrder.status === 'completed') ||
+                !(userOrder.state !== 'hold')
             ) {
-                const error = new Error("Not allowed!");
+                const error = new Error('Not allowed!');
                 error.httpStatusCode = 405;
                 throw error;
             }
@@ -469,7 +469,7 @@ class OrdersController {
                 status: req.body.status
             });
             res.status(200).json({
-                message: "Order updated!",
+                message: 'Order updated!',
                 data: { order: { updatedUserOrder } }
             });
             return;

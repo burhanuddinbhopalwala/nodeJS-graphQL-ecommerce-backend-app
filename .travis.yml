@@ -3,7 +3,7 @@ sudo: required #* Default: false
 
 language: node_js
 node_js:
-  - "10.9.0"
+  - '10.9.0'
 dist: trusty #* Special version of UNIX, well tailored for small virtual machines/small tasks (running test suite)
 
 services:

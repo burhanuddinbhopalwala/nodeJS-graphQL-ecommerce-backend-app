@@ -1,38 +1,38 @@
-"use strict";
+'use strict';
 
-const path = require("path");
+const path = require('path');
 
-const express = require("express");
+const express = require('express');
 
 const customValidators = require(path.join(
     __dirname,
-    "..",
-    "..",
-    "..",
-    "customMiddlewares",
-    "api",
-    "v1",
-    "validators.js"
+    '..',
+    '..',
+    '..',
+    'customMiddlewares',
+    'api',
+    'v1',
+    'validators.js'
 ));
 const isAuth = require(path.join(
     __dirname,
-    "..",
-    "..",
-    "..",
-    "customMiddlewares",
-    "api",
-    "v1",
-    "isAuth.js"
+    '..',
+    '..',
+    '..',
+    'customMiddlewares',
+    'api',
+    'v1',
+    'isAuth.js'
 ));
 const productsController = require(path.join(
     __dirname,
-    "..",
-    "..",
-    "..",
-    "controllers",
-    "api",
-    "v1",
-    "productsController.js"
+    '..',
+    '..',
+    '..',
+    'controllers',
+    'api',
+    'v1',
+    'productsController.js'
 ));
 
 const router = express.Router();
@@ -100,7 +100,7 @@ const router = express.Router();
  *         $ref: "#/components/schemas/ResponseElse"
  */
 //* GET /api/v1/products
-router.get("/", productsController.getAllProducts);
+router.get('/', productsController.getAllProducts);
 
 /**
  * @swagger
@@ -160,7 +160,7 @@ router.get("/", productsController.getAllProducts);
  */
 //* POST /api/v1/products PRIVATE
 router.post(
-    "/",
+    '/',
     customValidators.productValidator,
     isAuth,
     productsController.addProduct
@@ -228,7 +228,7 @@ router.post(
  */
 //* PUT /api/v1/products/:productId PRIVATE
 router.put(
-    "/:productId",
+    '/:productId',
     customValidators.productValidator,
     isAuth,
     productsController.updateProduct
@@ -284,6 +284,6 @@ router.put(
  *         $ref: "#/components/schemas/ResponseElse"
  */
 //* DELETE /api/v1/products/:productId PRIVATE
-router.delete("/:productId", isAuth, productsController.deleteProduct);
+router.delete('/:productId', isAuth, productsController.deleteProduct);
 
 module.exports = router;

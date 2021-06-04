@@ -1,8 +1,8 @@
-"use strict";
+'use strict';
 class ErrorsController {
     static throw404(req, res, next) {
         const status = 404;
-        const error = new Error("Route not found!");
+        const error = new Error('Route not found!');
         res.status(status).json({
             status,
             name: error.name, //* Error

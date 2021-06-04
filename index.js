@@ -1,97 +1,97 @@
-"use strict";
+'use strict';
 
 //* Setting up default NODE_ENV
-process.env.ENV = process.env.ENV || "dev";
-process.env.NODE_ENV = process.env.NODE_ENV || "development";
+process.env.ENV = process.env.ENV || 'dev';
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 console.log(`app starting in ${process.env.NODE_ENV} mode`);
 
-const fs = require("fs");
-const path = require("path");
+const fs = require('fs');
+const path = require('path');
 
-const express = require("express");
-const morgan = require("morgan");
-const xssClean = require("xss-clean");
-const helmet = require("helmet");
-const rateLimiter = require("express-rate-limit");
-const csurf = require("csurf");
-const cookieParser = require("cookie-parser");
-const bodyParser = require("body-parser");
-const expressGraphQL = require("express-graphql");
-const swaggerJsDoc = require("swagger-jsdoc");
-const swaggerUiExpress = require("swagger-ui-express");
+const express = require('express');
+const morgan = require('morgan');
+const xssClean = require('xss-clean');
+const helmet = require('helmet');
+const rateLimiter = require('express-rate-limit');
+const csurf = require('csurf');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const expressGraphQL = require('express-graphql');
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUiExpress = require('swagger-ui-express');
 //* https://bundlephobia.com
 
-const { SOURCE } = require(path.join(__dirname, "constants.js"));
-const sequelize = require(path.join(SOURCE, "models")).sequelize;
+const { SOURCE } = require(path.join(__dirname, 'constants.js'));
+const sequelize = require(path.join(SOURCE, 'models')).sequelize;
 const apiV1Auth = require(path.join(
     SOURCE,
-    "customMiddlewares",
-    "api",
-    "v1",
-    "isAuth.js"
+    'customMiddlewares',
+    'api',
+    'v1',
+    'isAuth.js'
 ));
 const apiV1UsersRoutes = require(path.join(
     SOURCE,
-    "routes",
-    "api",
-    "v1",
-    "users.js"
+    'routes',
+    'api',
+    'v1',
+    'users.js'
 ));
 const apiV1ProductsRoutes = require(path.join(
     SOURCE,
-    "routes",
-    "api",
-    "v1",
-    "products.js"
+    'routes',
+    'api',
+    'v1',
+    'products.js'
 ));
 const apiV1CartsRoutes = require(path.join(
     SOURCE,
-    "routes",
-    "api",
-    "v1",
-    "carts.js"
+    'routes',
+    'api',
+    'v1',
+    'carts.js'
 ));
 const apiV1ShippingAddressesRoutes = require(path.join(
     SOURCE,
-    "routes",
-    "api",
-    "v1",
-    "shippingAddresses.js"
+    'routes',
+    'api',
+    'v1',
+    'shippingAddresses.js'
 ));
 const apiV1OrdersRoutes = require(path.join(
     SOURCE,
-    "routes",
-    "api",
-    "v1",
-    "orders.js"
+    'routes',
+    'api',
+    'v1',
+    'orders.js'
 ));
 const apiV1GraphQLSchema = require(path.join(
     SOURCE,
-    "graphQL",
-    "api",
-    "v1",
-    "schema.js"
+    'graphQL',
+    'api',
+    'v1',
+    'schema.js'
 ));
 const apiV1GraphQLResolvers = require(path.join(
     SOURCE,
-    "graphQL",
-    "api",
-    "v1",
-    "resolvers.js"
+    'graphQL',
+    'api',
+    'v1',
+    'resolvers.js'
 ));
 const errorHandlingRoutes = require(path.join(
     SOURCE,
-    "routes",
-    "public",
-    "errors.js"
+    'routes',
+    'public',
+    'errors.js'
 ));
 
-const masterJobs = require(path.join(SOURCE, "jobs", "masterJobs.js"));
+const masterJobs = require(path.join(SOURCE, 'jobs', 'masterJobs.js'));
 
 const app = express();
 const PORT = process.env.PORT || 3500;
 
-app.set("trust proxy", 1);
+app.set('trust proxy', 1);
 //* https://expressjs.com/en/guide/behind-proxies.html
 //* If behind a reverse proxy server such as nginx, the trust proxy option must be set.
 //* https://medium.com/@sevcsik/authentication-using-https-client-certificates-3c9d270e8326
@@ -103,15 +103,15 @@ app.set("trust proxy", 1);
 //* Logging
 //* Distributed tracing: https://blog.risingstack.com/node-js-logging-tutorial
 const accessLogStream = fs.createWriteStream(
-    path.join(SOURCE, "logs", "access.log"),
-    { flags: "a" }
+    path.join(SOURCE, 'logs', 'access.log'),
+    { flags: 'a' }
 );
 
 //* API rate limiter
 const apiRateLimiter = rateLimiter({
     max: 1000, //* limit each IP to 100 requests per windowMs
     windowMs: 1 * 1 * 1000, //* 1 sec, min * sec * 1000
-    message: "Too many requests" //* message to send
+    message: 'Too many requests' //* message to send
 });
 
 //! CSRF Attacks
@@ -120,9 +120,9 @@ const csrfProtection = csurf({
 });
 
 //* Security Middlewares
-app.use(morgan("combined", { stream: accessLogStream })); //* Logging
-app.use("/api", apiRateLimiter); //! DoS Attacks + Brute Force Attacks
-app.use(express.json({ limit: "10kb" })); //! Body limit is 10 - DoS Attacks
+app.use(morgan('combined', { stream: accessLogStream })); //* Logging
+app.use('/api', apiRateLimiter); //! DoS Attacks + Brute Force Attacks
+app.use(express.json({ limit: '10kb' })); //! Body limit is 10 - DoS Attacks
 app.use(xssClean()); //! Data (HTML & JS-Scripts ) Sanitization against - XSS Attacks
 app.use(helmet()); //! XSS Attacks
 //! No SQL Sequelize RAW Queries - SQL Injection Attacks
@@ -132,41 +132,41 @@ app.use(helmet()); //! XSS Attacks
 app.use(/\/((?!graphql).)*/, bodyParser.urlencoded({ extended: true }));
 app.use(/\/((?!graphql).)*/, bodyParser.json());
 app.use(cookieParser()); //* // We need this because "cookie" is true in csrfProtection
-if (process.env.NODE_ENV === "production") app.use(csrfProtection); //* _csrf, req.csrfToken() + req.body._csrf
+if (process.env.NODE_ENV === 'production') app.use(csrfProtection); //* _csrf, req.csrfToken() + req.body._csrf
 // app.all("*", function(req, res) {
 //     res.cookie("XSRF-TOKEN", req.csrfToken());
 // }); //* SPA
 //* err.code === "EBADCSRFTOKEN"
 //! CSRF Attacks
 app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader(
-        "Access-Control-Allow-Methods",
-        "OPTIONS, GET, POST, PUT, PATCH, DELETE"
+        'Access-Control-Allow-Methods',
+        'OPTIONS, GET, POST, PUT, PATCH, DELETE'
     );
     res.setHeader(
-        "Access-Control-Allow-Headers",
-        "Content-Type, Authorization"
+        'Access-Control-Allow-Headers',
+        'Content-Type, Authorization'
     );
     next();
 });
 
 //* For ALB Health Check!
-app.get("/api/health", (req, res, next) => {
+app.get('/api/health', (req, res, next) => {
     const status = 200;
     const uptimeSeconds = process.uptime();
     const uptime =
         Math.floor(uptimeSeconds / (3600 * 24)) +
-        " days " +
+        ' days ' +
         Math.floor((uptimeSeconds % (3600 * 24)) / 3600) +
-        " hours " +
+        ' hours ' +
         Math.floor((uptimeSeconds % 3600) / 60) +
-        " minutes " +
+        ' minutes ' +
         Math.floor(uptimeSeconds % 60) +
-        " seconds";
+        ' seconds';
     res.status(status).json({
         status,
-        message: "Up...",
+        message: 'Up...',
         data: {
             uptime: uptime,
             timestamp: new Date().toString()
@@ -175,16 +175,16 @@ app.get("/api/health", (req, res, next) => {
 });
 
 //* Buisness routes
-app.use("/api/v1/users", apiV1UsersRoutes);
-app.use("/api/v1/products", apiV1ProductsRoutes);
-app.use("/api/v1/carts", apiV1CartsRoutes);
-app.use("/api/v1/shippingAddresses", apiV1ShippingAddressesRoutes);
-app.use("/api/v1/orders", apiV1OrdersRoutes);
+app.use('/api/v1/users', apiV1UsersRoutes);
+app.use('/api/v1/products', apiV1ProductsRoutes);
+app.use('/api/v1/carts', apiV1CartsRoutes);
+app.use('/api/v1/shippingAddresses', apiV1ShippingAddressesRoutes);
+app.use('/api/v1/orders', apiV1OrdersRoutes);
 
 //* Only for graphQL
 //! Don't use custom productValidator here, as graphQL query will not resolve, leads to errors only
 app.use(
-    "/api/v1/graphql",
+    '/api/v1/graphql',
     apiV1Auth,
     expressGraphQL({
         schema: apiV1GraphQLSchema,
@@ -203,54 +203,54 @@ app.use(
 
 //* Swagger API Documentation
 const swaggerDefinition = {
-    openapi: "3.0.0",
+    openapi: '3.0.0',
     info: {
-        title: "nodeJS-graphQL-ecommerce-backend-app",
-        version: "1.0.0",
-        description: "nodeJS-graphQL-ecommerce-backend-app",
-        termsOfService: "nodeJS-graphQL-ecommerce-backend-app - TOS",
-        host: "http://localhost:3500",
-        basePath: "/api",
-        schemes: ["http", "https"],
+        title: 'nodeJS-graphQL-ecommerce-backend-app',
+        version: '1.0.0',
+        description: 'nodeJS-graphQL-ecommerce-backend-app',
+        termsOfService: 'nodeJS-graphQL-ecommerce-backend-app - TOS',
+        host: 'http://localhost:3500',
+        basePath: '/api',
+        schemes: ['http', 'https'],
         license: {
-            name: "MIT",
-            url: "https://choosealicense.com/licenses/mit/"
+            name: 'MIT',
+            url: 'https://choosealicense.com/licenses/mit/'
         },
         contact: {
-            name: "Burhanuddin Bhopalwala",
-            url: "https://github.com/burhanuddinbhopalwala",
-            email: "burhanuddinbhopalwala.connect@gmail.com"
+            name: 'Burhanuddin Bhopalwala',
+            url: 'https://github.com/burhanuddinbhopalwala',
+            email: 'burhanuddinbhopalwala.connect@gmail.com'
         }
     },
     servers: [
         {
-            url: "http://localhost:3500",
-            description: "dev"
+            url: 'http://localhost:3500',
+            description: 'dev'
         }
     ],
     components: {
         schemas: {},
         securitySchemes: {
             authHeader: {
-                type: "http", //* http, apiKey, oauth2 or openIdConnect
-                scheme: "bearer",
-                bearerFormat: "JWT"
+                type: 'http', //* http, apiKey, oauth2 or openIdConnect
+                scheme: 'bearer',
+                bearerFormat: 'JWT'
             }
         }
     }
 };
 const options = {
     swaggerDefinition,
-    apis: ["./models/*.js", "./routes/*.js", "./swaggerComponents/*.js"]
+    apis: ['./models/*.js', './routes/*.js', './swaggerComponents/*.js']
 };
 const swaggerSpec = swaggerJsDoc(options);
 
-app.get("/swagger.json", function(req, res) {
-    res.setHeader("Content-Type", "application/json");
+app.get('/swagger.json', function(req, res) {
+    res.setHeader('Content-Type', 'application/json');
     res.send(swaggerSpec);
 });
 app.use(
-    "/api/v1/api-docs",
+    '/api/v1/api-docs',
     swaggerUiExpress.serve,
     swaggerUiExpress.setup(swaggerSpec)
 );
@@ -271,7 +271,7 @@ app.use(errorHandlingRoutes);
 sequelize
     .sync({ force: false })
     .then(data => {
-        console.log("MySQL sync successful!");
+        console.log('MySQL sync successful!');
         app.listen(PORT, () =>
             console.log(`Listening and serving HTTP on :${PORT}`)
         );
