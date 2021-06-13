@@ -1,6 +1,7 @@
 # Ignore artifacts:
-build
-coverage
-node_modules
+build/
+coverage/
+node_modules/
+public/contrib/
 
 package-lock.json

@@ -1,10 +1,10 @@
-#nodeJS #ecommerceBackend #graphQL #RESTful #redis #amazonS3 #messagingQueues #bestPractices #scalableArchitecture #testCases #travis
+# nodeJS #ecommerceBackend #graphQL #RESTful #redis #amazonS3 #messagingQueues #bestPractices #scalableArchitecture #testCases #travis
 
 # Ecommerce backend (nodeJS + grapgQL)
 
 This project consists of entire backend set of RESTful API's, that are required for an Ecommerce. Below are the details implementation functionalities that has been implemented by leveraging nodeJS and graphQL.
 
-## Implementation includes:
+## Implementation includes
 
 - graphQL implementation for all product APIs
 
@@ -55,15 +55,25 @@ Find entire backend API WSDL (total 25 REST + 5 REST With graphQL) [Postman](htt
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change. Please make sure to update tests as appropriate.
 
+## Development
+
+This project has the support for both EditorConfig `.editorconfig` & Prettier `.prettierrc.json` for standardize the formatting configurations
+Visit: <https://editorconfig.org/> or
+<https://prettier.io/docs/en/configuration.html> for details.
+
+### Debugging
+
+Run `npm run start:dev` to start `nodemon` & enable development logging
+
 ## Authors
 
 - **Burhanuddin Bhopalwala** - _Initial work_ - [GitHub](https://github.com/burhanuddinbhopalwala)
 
 ## Acknowledgments
 
-- https://bit.ly/2FeFYgT
-- https://bit.ly/2WKXfZS
-- https://flaviocopes.com/express-validate-input/
+- <https://bit.ly/2FeFYgT>
+- <https://bit.ly/2WKXfZS>
+- <https://flaviocopes.com/express-validate-input/>
 
 ## License
 

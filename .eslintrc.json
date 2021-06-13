@@ -6,9 +6,20 @@
     "browser": true
   },
   "parserOptions": {
-    "ecmaVersion": 2017
+    "ecmaVersion": 2017,
+    "sourceType": "script" // module
   },
   "rules": {
-    "no-console": 0
-  }
+    "no-console": 0,
+    "no-var": "error",
+    "prefer-const": "error",
+    "no-multiple-empty-lines": "warn"
+  },
+  "ignorePatterns": [
+    "build/",
+    "coverage/",
+    "node_moudules/",
+    "public/contrib/",
+    "package-lock.json"
+  ]
 }
