@@ -22,6 +22,7 @@ dump.rdb
 .history
 .DS_Store
 !.gitkeep
+.gitconfig
 newrelic.js
 npm-debug.log
 package-lock.json
