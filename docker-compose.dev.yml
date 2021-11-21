@@ -32,7 +32,7 @@ services:
       - /usr/src/nodeJS-graphQL-ecommerce-backend-app/node_modules/ #* Bookmarking volume (Don't map)
       - ./:/usr/src/nodeJS-graphQL-ecommerce-backend-app/ #* Mapping for nodemon/react-server CDC
 
-  test: #* npm run test - CDC
+  test: #* npm run test
     image: nodeJS-graphQL-ecommerce-backend-app-dev:latest
     build:
       context: ./

@@ -250,7 +250,7 @@ app.get('/swagger.json', function(req, res) {
     res.send(swaggerSpec);
 });
 app.use(
-    '/api/v1/api-docs',
+    '/api/v1/docs',
     swaggerUiExpress.serve,
     swaggerUiExpress.setup(swaggerSpec)
 );
