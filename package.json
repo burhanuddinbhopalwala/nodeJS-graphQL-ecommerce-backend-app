@@ -7,10 +7,12 @@
     "node": "10.9.0"
   },
   "scripts": {
-    "start": "node --require dotenv/config index.js dotenv_config_path=./.env",
-    "start:dev": "nodemon --require dotenv/config index.js dotenv_config_path=./.env.dev",
-    "start:test": "nodemon --require dotenv_config_path=./.env.test .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node --require dotenv/config dotenv_config_path=./.env index.js",
+    "start:qa": "nodemon --require dotenv/config dotenv_config_path=./envs/.env.qa .",
+    "start:test": "nodemon --require dotenv/config dotenv_config_path=./envs/.env.test .",
+    "start:preprod": "nodemon --require dotenv/config dotenv_config_path=./envs/.env.prod .",
+    "start:dev": "nodemon --require dotenv/config dotenv_config_path=./envs/.env.dev index.js"
   },
   "repository": {
     "type": "git",
