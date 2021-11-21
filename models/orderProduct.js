@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = function(sequelize, DataTypes) {
-    const orderProduct = sequelize.define(
+    return sequelize.define(
         'orderProduct',
         {
             id: {
@@ -23,9 +23,11 @@ module.exports = function(sequelize, DataTypes) {
                     }
                 }
             },
-            unitCost: DataTypes.DECIMAL(10, 2)
+            // unitCost: DataTypes.DECIMAL(10, 2)
+            unitCost: { type: DataTypes.DECIMAL(10, 2), field: 'unit_cost' }
         },
         {
+            paranoid: true,
             timestamps: true,
             tableName: 'order_products',
             defaultScope: {
@@ -35,5 +37,5 @@ module.exports = function(sequelize, DataTypes) {
             }
         }
     );
-    return orderProduct;
+    // return orderProduct;
 };

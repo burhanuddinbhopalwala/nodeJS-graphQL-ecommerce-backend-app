@@ -7,12 +7,14 @@ module.exports = {
         return Promise.all([
             queryInterface.addColumn('users', 'resetToken', {
                 type: Sequelize.STRING,
-                allowNull: true
+                allowNull: true,
+                field: 'reset_token'
             }),
 
             queryInterface.addColumn('users', 'resetTokenExpiration', {
                 type: Sequelize.DATE,
-                allowNull: true
+                allowNull: true,
+                field: 'reset_token_expiration'
             })
         ]);
     },

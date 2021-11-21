@@ -115,6 +115,7 @@ module.exports = function(sequelize, DataTypes) {
                 type: DataTypes.DECIMAL(10, 2),
                 allowNull: true,
                 defaultValue: 0.0,
+                field: 'discounted_price',
                 validate: {
                     min: { args: [0.0], msg: 'Minimum discountedPrice >= 0.0' },
                     max: {
@@ -126,17 +127,16 @@ module.exports = function(sequelize, DataTypes) {
             imageUrl: {
                 type: DataTypes.STRING,
                 allowNull: false,
+                field: 'image_url',
                 validate: {
                     isUrl: { args: true, msg: 'imageUrl invalid format!' }
                 }
             }
         },
         {
-            timestamps: true,
             paranoid: true,
+            timestamps: true,
             tableName: 'products',
-            validate: {},
-            indexes: [],
             defaultScope: {
                 attributes: {
                     exclude: ['createdAt', 'updatedAt', 'deletedAt']

@@ -11,16 +11,14 @@ module.exports = function(sequelize, DataTypes) {
             }
         },
         {
+            paranoid: true,
             timestamps: true,
             tableName: 'carts',
-            validate: {},
-            indexes: [],
             defaultScope: {
                 attributes: {
                     exclude: ['createdAt', 'updatedAt', 'deletedAt']
                 }
             },
-            scopes: {},
             classMethods: {
                 associate: function(models) {
                     Cart.belongsTo(models.user);

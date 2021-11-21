@@ -24,6 +24,7 @@ module.exports = function(sequelize, DataTypes) {
             mobilePhone: {
                 type: DataTypes.STRING,
                 allowNull: false,
+                is_field: 'mobile_phone',
                 validate: {
                     len: {
                         args: [10],
@@ -54,7 +55,8 @@ module.exports = function(sequelize, DataTypes) {
             },
             postalCode: {
                 type: DataTypes.STRING,
-                allowNull: true
+                allowNull: true,
+                field: 'postal_code'
                 // set: function(value) {
                 //   if (validate.isPostalCode(value.toString(), ["IN", "US"])) {
                 //     throw new Error("Postal code invalid!");
@@ -93,17 +95,14 @@ module.exports = function(sequelize, DataTypes) {
             }
         },
         {
-            timestamps: true,
             paranoid: true,
+            timestamps: true,
             tableName: 'shipping_addresses',
-            validate: {},
-            indexes: [],
             defaultScope: {
                 attributes: {
                     exclude: ['createdAt', 'updatedAt', 'deletedAt']
                 }
             },
-            scopes: {},
             classMethods: {
                 associate: function(models) {
                     shippingAddress.belongsTo(models.user);

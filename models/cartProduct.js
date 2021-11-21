@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = function(sequelize, DataTypes) {
-    const cartProduct = sequelize.define(
+    return sequelize.define(
         'cartProduct',
         {
             id: {
@@ -23,9 +23,11 @@ module.exports = function(sequelize, DataTypes) {
                     }
                 }
             },
-            addedOn: DataTypes.DATE
+            // addedOn: DataTypes.DATE
+            addedOn: { type: DataTypes.DATE, field: 'added_on' }
         },
         {
+            paranoid: true,
             timestamps: true,
             tableName: 'cart_products',
             defaultScope: {
@@ -35,5 +37,5 @@ module.exports = function(sequelize, DataTypes) {
             }
         }
     );
-    return cartProduct;
+    // return cartProduct;
 };

@@ -40,6 +40,7 @@ module.exports = function(sequelize, DataTypes) {
             isAdmin: {
                 type: DataTypes.BOOLEAN,
                 allowNull: true,
+                field: 'is_admin',
                 defaultValue: false
             },
             status: {
@@ -47,9 +48,11 @@ module.exports = function(sequelize, DataTypes) {
                 allowNull: true,
                 defaultValue: true
             },
+            //* status is same as is_active
             creditCard: {
                 type: DataTypes.STRING,
                 allowNull: true,
+                field: 'credit_card',
                 validate: {
                     isCreditCard: {
                         args: true,
@@ -59,26 +62,33 @@ module.exports = function(sequelize, DataTypes) {
             },
             resetToken: {
                 type: DataTypes.STRING,
-                allowNull: true
+                allowNull: true,
+                field: 'reset_token'
             },
             resetTokenExpiration: {
                 type: DataTypes.DATE,
-                allowNull: true
+                allowNull: true,
+                field: 'reset_token_expiration'
             }
         },
         {
-            timestamps: true,
             paranoid: true,
+            timestamps: true,
             tableName: 'users',
             validate: {},
             indexes: [
                 {
-                    name: 'idx_email_customers',
+                    unique: false,
                     method: 'BTREE',
-                    fields: ['email']
+                    fields: ['email'],
+                    name: 'idx_email_customers'
                 }
             ],
             defaultScope: {
+                where: {
+                    status: true
+                    // isDeleted: false
+                },
                 attributes: {
                     exclude: ['createdAt', 'updatedAt', 'deletedAt']
                 }

@@ -32,8 +32,8 @@ module.exports = function(sequelize, DataTypes) {
             comments: DataTypes.STRING
         },
         {
-            timestamps: true,
             paranoid: true,
+            timestamps: true,
             tableName: 'orders',
             validate: {},
             indexes: [],

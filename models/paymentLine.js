@@ -31,17 +31,14 @@ module.exports = function(sequelize, DataTypes) {
             }
         },
         {
-            timestamps: true,
             paranoid: true,
+            timestamps: true,
             tableName: 'payment_lines',
-            validate: {},
-            indexes: [],
             defaultScope: {
                 attributes: {
                     exclude: ['createdAt', 'updatedAt', 'deletedAt']
                 }
             },
-            scopes: {},
             classMethods: {
                 associate: function(models) {
                     PaymentLine.belongsTo(models.order);
