@@ -1,3 +1,4 @@
+# EditorConfig is awesome: https://EditorConfig.org
 
 # top-most EditorConfig file
 root = true
@@ -46,7 +47,7 @@ indent_style = space
 max_line_length = 80
 
 # JavaScript
-[*.js]
+[*.{js}]
 indent_size = 4
 indent_style = space
 max_line_length = 80
@@ -56,6 +57,11 @@ max_line_length = 80
 indent_size = 4
 indent_style = tab
 max_line_length = 120
+
+# Frontend
+[*.{less,html,css,jsx}]
+indent_size = 2
+indent_style = space
 
 # Cosmic config files
 [*.{json,jsonc,json5,yml,yaml,toml,xml}]
