@@ -22,7 +22,7 @@ const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUiExpress = require('swagger-ui-express');
 //* https://bundlephobia.com
 
-const { SOURCE } = require(path.join(__dirname, 'constants.js'));
+const { SOURCE } = require(path.join(__dirname, 'constants', 'appConstants.js'));
 const sequelize = require(path.join(SOURCE, 'models')).sequelize;
 const apiV1Auth = require(path.join(
   SOURCE,
